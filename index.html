@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Our Letterbox</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fdf7f0;--ink:#2e2020;--ink2:#6b4f4f;--gold:#c8a96e;
+  --card:#fffdf8;--line:rgba(200,169,110,.18);--sh:rgba(46,32,32,.11);
+  --me:#c0272d;--mel:#fdeaea;--med:#8c1a1e;
+  --them:#ffffff;--theml:#f7f7f7;--themd:#ddd;
+  --them-ink:#2e2020;--them-ink2:#6b4f4f;
+  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);
+}
+@media(prefers-color-scheme:dark){:root{
+  --cream:#1a1210;--ink:#f0e8e6;--ink2:#b09090;--card:#221818;
+  --line:rgba(200,169,110,.12);--sh:rgba(0,0,0,.4);
+  --mel:#2a1818;--med:#8c1a1e;
+  --them:#1e1a1a;--theml:#2a2020;--themd:#111;
+  --them-ink:#f0e8e6;--them-ink2:#b09090;
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--ink);min-height:100dvh;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer}
+input,textarea{font-family:inherit;font-size:16px}
+.screen{display:none!important}.screen.on{display:block!important}
+
+/* ══ AUTH ══ */
+.auth-wrap{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(var(--sat)+1.5rem) 1.2rem calc(var(--sab)+1.5rem);overflow-y:auto}
+.auth-card{background:var(--card);border-radius:22px;padding:2rem 1.5rem 1.8rem;width:100%;max-width:400px;box-shadow:0 10px 40px var(--sh);text-align:center}
+.s-icon{font-size:1.9rem;display:block;margin-bottom:.8rem;animation:hp 2.5s ease-in-out infinite}
+@keyframes hp{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+.auth-card h2{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:400;color:var(--ink);margin-bottom:.2rem}
+.auth-sub{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink2);margin-bottom:1.4rem}
+.sf{margin-bottom:.9rem;text-align:left}
+.sf label,.fg label{display:block;font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.35rem;font-weight:700}
+.sf input,.sf input[type=password]{width:100%;border:1.5px solid rgba(200,169,110,.4);border-radius:10px;padding:.75rem 1rem;font-size:1rem;color:var(--ink);background:var(--card);outline:none;-webkit-appearance:none;transition:border-color .2s,box-shadow .2s}
+.sf input:focus{border-color:var(--me);box-shadow:0 0 0 3px rgba(192,39,45,.12)}
+.err{color:#c0392b;font-size:.76rem;margin-top:.3rem;min-height:1rem}
+.pbtn{display:block;width:100%;border:none;border-radius:10px;padding:.9rem 1rem;font-family:'Playfair Display',serif;font-size:1.05rem;color:#fff;letter-spacing:.04em;transition:opacity .18s,transform .1s;-webkit-appearance:none;margin-top:.3rem;background:var(--me)}
+.pbtn:active{transform:scale(.98);opacity:.88}
+.pbtn.ghost{background:transparent;color:var(--me);border:1.5px solid var(--me)}
+.auth-note{font-size:.68rem;color:var(--ink2);margin-top:.75rem;line-height:1.5}
+.danger-link{font-size:.65rem;color:var(--ink2);opacity:.4;margin-top:1.1rem;cursor:pointer;display:block}
+.stay-row{display:flex;align-items:center;gap:.5rem;margin:.5rem 0 .9rem;font-size:.72rem;color:var(--ink2);cursor:pointer;user-select:none}
+.stay-row input[type=checkbox]{width:15px;height:15px;accent-color:var(--me);cursor:pointer;flex-shrink:0;margin:0}
+.divider-row{display:flex;align-items:center;gap:.8rem;margin:1.1rem 0;color:var(--ink2);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.divider-row::before,.divider-row::after{content:'';flex:1;height:1px;background:rgba(200,169,110,.3)}
+.name-pair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}
+.who-pick{display:flex;border:1.5px solid rgba(200,169,110,.4);border-radius:10px;overflow:hidden;margin-bottom:1rem}
+.who-pick button{flex:1;padding:.7rem .5rem;border:none;background:transparent;font-family:'Playfair Display',serif;font-size:.95rem;font-style:italic;color:var(--ink2);transition:background .2s,color .2s}
+.who-pick button.wsel{background:var(--me);color:#fff}
+.who-pick-label{font-size:.63rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.45rem;text-align:left;font-weight:700;display:block}
+.login-who-name{font-family:'Playfair Display',serif;font-size:2rem;font-style:italic;margin-bottom:.15rem;color:var(--me)}
+.login-couple{font-size:.74rem;color:var(--ink2);letter-spacing:.07em;margin-bottom:1.2rem}
+.who-switch{display:inline-flex;align-items:center;gap:.4rem;background:var(--theml);border:1px solid rgba(200,169,110,.4);border-radius:2rem;padding:.28rem .8rem;margin-bottom:1.2rem;font-size:.71rem;color:var(--ink2)}
+.who-switch button{background:none;border:none;font-size:.71rem;color:var(--me);text-decoration:underline;cursor:pointer;padding:0}
+/* spinner */
+.spinner{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(192,39,45,.2);border-top-color:var(--me);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══ APP CHROME ══ */
+.app-header{text-align:center;padding:calc(var(--sat)+1rem) 1rem .4rem;background:var(--cream);position:sticky;top:0;z-index:40}
+.app-header h1{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;color:var(--ink)}
+.hdr-names{font-family:'Playfair Display',serif;font-style:italic;font-size:.84rem;margin-top:.1rem;color:var(--ink2)}
+.hdr-actions{display:flex;justify-content:space-between;align-items:center;padding:.3rem 1rem 0}
+.who-badge{font-size:.7rem;letter-spacing:.09em;border-radius:2rem;padding:.28rem .8rem;border:1.5px solid var(--me);color:var(--me);background:transparent}
+.lock-btn{font-size:.7rem;color:var(--ink2);background:none;border:none;letter-spacing:.07em;padding:.28rem}
+nav{display:flex;padding:0 1rem .5rem;border-bottom:1px solid rgba(200,169,110,.25)}
+nav button{flex:1;padding:.52rem .5rem;border:none;background:none;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);border-bottom:2.5px solid transparent;transition:color .18s,border-color .18s}
+nav button.active{color:var(--ink);font-weight:700;border-bottom-color:var(--me)}
+#navBox{position:relative}
+#navBox.has-unread::after{content:'';position:absolute;top:5px;right:8px;width:7px;height:7px;background:#c0272d;border-radius:50%;box-shadow:0 0 0 1.5px var(--cream)}
+
+/* ══ COMPOSE ══ */
+.compose{padding:1rem 1rem calc(var(--sab)+5rem);max-width:540px;margin:0 auto}
+.headspace-wrap{border-radius:0 10px 10px 0;padding:.9rem 1.1rem;margin-bottom:1.3rem;border-left:3.5px solid var(--me);background:var(--mel)}
+.hs-lbl{display:block;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;margin-bottom:.5rem;color:var(--me)}
+.hs-input{width:100%;border:none;background:transparent;font-family:'Playfair Display',serif;font-style:italic;font-size:.97rem;color:var(--ink);outline:none;resize:none;line-height:1.5;padding:0;-webkit-appearance:none}
+.hs-input::placeholder{color:rgba(46,32,32,.3);font-style:italic}
+@media(prefers-color-scheme:dark){.hs-input::placeholder{color:rgba(240,232,230,.3)}}
+@media(prefers-color-scheme:dark){.hs-input::placeholder{color:rgba(240,232,230,.25)}}
+.fto-bar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:10px;padding:.78rem 1rem;margin-bottom:1.2rem;border:1.5px solid rgba(200,169,110,.28);box-shadow:0 1px 4px var(--sh)}
+.fto-col .fto-lbl{font-size:.58rem;letter-spacing:.17em;text-transform:uppercase;color:var(--ink2);margin-bottom:.15rem}
+.fto-col .fto-name{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem}
+.fto-col.me .fto-name{color:var(--me)}
+.fto-col.them .fto-name{color:var(--ink2)}
+.fto-arr{color:var(--ink2);opacity:.3;font-size:.9rem}
+.fg{margin-bottom:1.1rem}
+.ts-block{background:rgba(200,169,110,.1);border-radius:9px;padding:.65rem .9rem;margin-bottom:1.1rem;font-size:.76rem;color:var(--ink2);line-height:1.7}
+.ts-row{display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center}
+.ts-elapsed{font-weight:700;color:var(--ink)}
+.ts-sep{border-top:1px dashed rgba(200,169,110,.3);margin:.28rem 0}
+.wx-auto{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;background:var(--card);border:1.5px solid rgba(200,169,110,.4);border-radius:10px;padding:.6rem .85rem;min-height:48px}
+.wx-auto .wx-loading{color:var(--ink2);font-style:italic;font-size:.78rem}
+.wx-chip{display:inline-flex;align-items:center;gap:.22rem;font-size:.82rem;background:var(--mel);border-radius:2rem;padding:.18rem .58rem;color:var(--med)}
+.wx-picker{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.wx-pick-btn{border:1.5px solid rgba(200,169,110,.32);background:var(--card);border-radius:8px;padding:.38rem .55rem;font-size:1.1rem;cursor:pointer;transition:border-color .15s,background .15s;line-height:1;color:var(--ink)}
+.wx-pick-btn.sel{border-color:var(--me);background:var(--mel)}
+input[type=text],textarea{width:100%;background:var(--card);border:1.5px solid rgba(200,169,110,.38);border-radius:10px;padding:.75rem .95rem;font-size:1rem;color:var(--ink);outline:none;-webkit-appearance:none;appearance:none;transition:border-color .2s,box-shadow .2s}
+input[type=text]:focus,textarea:focus{border-color:var(--me);box-shadow:0 0 0 3px rgba(192,39,45,.1)}
+textarea{resize:none;min-height:200px;line-height:1.75}
+.audio-section{background:var(--card);border:1.5px solid rgba(200,169,110,.38);border-radius:10px;padding:.85rem 1rem}
+.audio-row{display:flex;align-items:center;gap:.75rem}
+.rec-btn{width:48px;height:48px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;transition:all .2s}
+.rec-btn.idle{background:#fee2e2;color:#dc2626}
+.rec-btn.recording{background:#dc2626;color:#fff;animation:rpulse .8s ease-in-out infinite}
+.rec-btn.done{background:#d1fae5;color:#065f46}
+@keyframes rpulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
+.rec-info{flex:1;font-size:.8rem;color:var(--ink2);line-height:1.5}
+.rec-timer{font-size:1rem;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.rec-waveform{height:28px;display:flex;align-items:center;gap:2px;margin-top:.3rem}
+.rec-bar{width:3px;border-radius:2px;background:var(--me);transition:height .1s;min-height:3px}
+.audio-playback{margin-top:.7rem}
+.audio-playback audio{width:100%;height:36px;border-radius:8px}
+.action-row{display:flex;gap:.7rem;margin-top:1.4rem}
+.send-btn{flex:1;border:none;border-radius:10px;padding:1rem .5rem;font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;letter-spacing:.04em;transition:opacity .18s,transform .1s;background:var(--me)}
+.send-btn:active{transform:scale(.98)}
+.new-letter-btn{border:1.5px solid rgba(200,169,110,.45);background:transparent;border-radius:10px;padding:.8rem .95rem;font-size:.77rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);transition:background .18s;white-space:nowrap}
+.new-letter-btn:active{background:rgba(200,169,110,.1)}
+.disclaimer{font-size:.66rem;color:var(--ink2);margin-top:.55rem;text-align:center}
+.historic-toggle{text-align:right;margin-top:-.5rem;margin-bottom:1.1rem}
+.historic-toggle button{background:none;border:none;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);opacity:.45;cursor:pointer;padding:.2rem 0;transition:opacity .18s}
+.historic-toggle button:hover{opacity:.75}
+.historic-wrap{background:rgba(200,169,110,.07);border:1px dashed rgba(200,169,110,.4);border-radius:9px;padding:.75rem .9rem;margin-top:-.6rem;margin-bottom:1.1rem}
+.historic-wrap label{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.35rem;font-weight:700}
+.historic-hint{font-size:.67rem;color:var(--ink2);opacity:.6;margin-top:.4rem;line-height:1.4}
+
+/* ══ CARD BOX ══ */
+.cardbox{padding:.9rem 1rem calc(var(--sab)+5rem);max-width:540px;margin:0 auto}
+.cb-empty{text-align:center;padding:3.5rem 1.5rem;font-family:'Playfair Display',serif;font-style:italic;color:var(--ink2);font-size:1rem}
+.cb-empty .icon{font-size:2.8rem;display:block;margin-bottom:.8rem}
+.section-hdr{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding:.8rem 0 .35rem;font-weight:700}
+.letter-stack{display:grid;gap:.7rem;margin-bottom:1.2rem}
+.card-pile{position:relative;margin-bottom:calc(1.4rem + 28px)}
+.env-card.stack-top{position:relative;z-index:3}
+.stack-peek{position:absolute;left:0;right:0;border-radius:10px;cursor:pointer;height:28px;display:flex;align-items:center;padding:0 1rem;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.stack-peek:hover{transform:translateY(2px)}
+.stack-peek.p1{bottom:-11px;left:8px;right:8px;z-index:2;opacity:.88}
+.stack-peek.p2{bottom:-20px;left:16px;right:16px;z-index:1;opacity:.72}
+.stack-peek.p3{bottom:-27px;left:24px;right:24px;z-index:0;opacity:.56}
+.stack-peek.card-me{background:var(--me)}
+.stack-peek.card-them{background:var(--them);border:1px solid rgba(200,169,110,.2)}
+.pk-label{font-family:'Playfair Display',serif;font-style:italic;font-size:.63rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stack-peek.card-me .pk-label{color:rgba(255,255,255,.8)}
+.stack-peek.card-them .pk-label{color:var(--them-ink2)}
+.env-card{display:flex;flex-direction:column;border-radius:10px;box-shadow:0 3px 14px var(--sh);overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s;position:relative;-webkit-user-select:none;user-select:none}
+.env-card:active{transform:scale(.983)}
+.env-card.opened{opacity:.52;filter:grayscale(.5)}
+.env-card.card-me{background:var(--me)}
+.env-card.card-me .env-to{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.15)}
+.env-card.card-me .env-from{color:rgba(255,255,255,.78)}
+.env-card.card-me .env-meta{color:rgba(255,255,255,.6)}
+.env-card.card-me .env-seal{background:rgba(255,255,255,.22)}
+.env-card.card-me .env-postmark{border-color:rgba(255,255,255,.35);color:rgba(255,255,255,.5)}
+.env-card.card-me .env-flap::before{border-top-color:var(--med)}
+.env-card.card-me .env-flap::after{border-left-color:var(--med);border-right-color:var(--med)}
+.env-card.card-them{background:var(--them);border:1px solid rgba(200,169,110,.2)}
+.env-card.card-them .env-to{color:var(--them-ink)}
+.env-card.card-them .env-from{color:var(--them-ink2)}
+.env-card.card-them .env-meta{color:var(--them-ink2);opacity:.7}
+.env-card.card-them .env-seal{background:rgba(192,39,45,.1)}
+.env-card.card-them .env-postmark{border-color:rgba(192,39,45,.3);color:rgba(192,39,45,.4)}
+.env-card.card-them .env-flap::before{border-top-color:var(--themd)}
+.env-card.card-them .env-flap::after{border-left-color:var(--themd);border-right-color:var(--themd)}
+.env-flap{position:relative;height:72px;flex-shrink:0;overflow:hidden}
+.env-flap::before,.env-flap::after{content:'';position:absolute;left:0;right:0;height:0}
+.env-flap::before{top:0;border-left:200px solid transparent;border-right:200px solid transparent;border-top:36px solid transparent;z-index:2}
+.env-flap::after{bottom:0;border-left:200px solid transparent;border-right:200px solid transparent;border-top:36px solid transparent;z-index:1}
+.env-seal{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;z-index:3;display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.env-address{padding:.72rem 1rem .8rem;flex:1;background-image:repeating-linear-gradient(transparent,transparent 20px,rgba(128,128,128,.1) 20px,rgba(128,128,128,.1) 21px);background-position:0 26px}
+.env-to{font-family:'Playfair Display',serif;font-style:italic;font-size:.96rem;margin-bottom:.1rem}
+.env-from{font-size:.7rem;letter-spacing:.05em;margin-bottom:.25rem}
+.env-meta{font-size:.64rem}
+.env-postmark{position:absolute;right:10px;bottom:10px;width:40px;height:40px;border:1.5px solid;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.33rem;letter-spacing:.07em;text-transform:uppercase;z-index:10}
+
+/* mic prompt */
+.mic-prompt{display:none;position:fixed;inset:0;background:rgba(46,32,32,.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:1.5rem}
+.mic-prompt.show{display:flex}
+.mic-card{background:var(--card);border-radius:18px;padding:1.8rem 1.5rem;max-width:300px;width:100%;text-align:center;box-shadow:0 10px 40px var(--sh)}
+.mic-icon{font-size:2.2rem;margin-bottom:.7rem;display:block}
+.mic-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;margin-bottom:.5rem;color:var(--ink)}
+.mic-card p{font-size:.82rem;color:var(--ink2);line-height:1.5;margin-bottom:1.2rem}
+.mic-card-btns{display:flex;gap:.6rem}
+.mic-allow{flex:1;background:var(--me);color:#fff;border:none;border-radius:9px;padding:.75rem;font-size:.9rem;font-weight:700;cursor:pointer}
+.mic-deny{flex:1;background:transparent;color:var(--ink2);border:1.5px solid rgba(200,169,110,.4);border-radius:9px;padding:.75rem;font-size:.9rem;cursor:pointer}
+
+/* modal */
+.modal-back{display:none;position:fixed;inset:0;background:rgba(46,32,32,.5);backdrop-filter:blur(6px);z-index:100;align-items:flex-end;justify-content:center}
+.modal-back.open{display:flex}
+.letter-sheet{width:100%;max-width:540px;background:var(--card);border-radius:20px 20px 0 0;box-shadow:0 -10px 50px rgba(46,32,32,.22);max-height:92dvh;display:flex;flex-direction:column;animation:shUp .38s cubic-bezier(.34,1.28,.64,1) both;padding-bottom:calc(var(--sab)+.5rem)}
+@keyframes shUp{from{transform:translateY(100%);opacity:.6}to{transform:none;opacity:1}}
+.sh-handle{width:36px;height:4px;background:rgba(128,128,128,.2);border-radius:2px;margin:.65rem auto 0;flex-shrink:0}
+.sh-strip{height:4px;border-radius:2px;margin:.45rem 1.2rem 0;flex-shrink:0;background:var(--me);transition:background .3s}
+.sh-strip.opened{background:rgba(128,128,128,.35)}
+.sh-seal-row{display:flex;align-items:center;justify-content:center;gap:.9rem;padding:1rem 1.5rem .35rem;flex-shrink:0}
+.seal-btn{width:48px;height:48px;border-radius:50%;border:none;font-size:1.45rem;display:flex;align-items:center;justify-content:center;background:var(--me);box-shadow:0 4px 14px rgba(192,39,45,.4);transition:transform .38s cubic-bezier(.34,1.56,.64,1),background .28s,box-shadow .28s,filter .28s}
+.seal-btn.cracked{background:#ccc!important;box-shadow:none!important;transform:scale(.68) rotate(36deg);filter:grayscale(1);cursor:default}
+.seal-hint{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.sh-letter{flex:1;overflow-y:auto;padding:.4rem 1.4rem 1.4rem;background-image:repeating-linear-gradient(transparent,transparent 27px,var(--line) 27px,var(--line) 28px);background-position:0 34px;opacity:0;transform:translateY(12px);transition:opacity .38s .25s,transform .38s .25s;-webkit-overflow-scrolling:touch}
+.sh-letter.revealed{opacity:1;transform:none}
+.l-timing{background:rgba(200,169,110,.1);border-radius:8px;padding:.6rem .85rem;margin-bottom:.9rem;font-size:.71rem;color:var(--ink2);line-height:1.7}
+.l-timing .lt-row{display:flex;flex-wrap:wrap;gap:.3rem 1rem}
+.l-timing .lt-sep{border-top:1px dashed rgba(200,169,110,.3);margin:.28rem 0}
+.l-to{font-family:'Playfair Display',serif;font-size:1.15rem;font-style:italic;color:var(--ink);margin-bottom:.75rem;padding-top:.2rem}
+.l-hs{border-left:2.5px solid var(--me);background:var(--mel);padding:.42rem .8rem;margin-bottom:.85rem;border-radius:0 4px 4px 0;font-size:.78rem;color:var(--ink);font-style:italic;line-height:1.5}
+.l-hs-lbl{font-size:.57rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:.18rem;color:var(--me)}
+.l-body{font-size:.92rem;color:var(--ink);white-space:pre-wrap;word-break:break-word;line-height:1.9}
+.l-from{font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;margin-top:1.2rem;text-align:right;color:var(--ink)}
+.l-audio{margin-top:.9rem;padding-top:.7rem;border-top:1px dashed rgba(200,169,110,.35)}
+.l-audio-lbl{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.4rem;font-weight:700}
+.l-audio audio{width:100%;height:36px;border-radius:8px}
+.l-log{margin-top:.9rem;padding-top:.75rem;border-top:1px dashed rgba(200,169,110,.35);font-size:.69rem;color:var(--ink2)}
+.l-log-title{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.4rem;font-weight:700}
+.l-log-row{display:flex;justify-content:space-between;padding:.16rem 0;border-bottom:1px solid rgba(200,169,110,.1)}
+.l-env{margin-top:.75rem;padding-top:.65rem;border-top:1px dashed rgba(200,169,110,.35);display:flex;flex-wrap:wrap;gap:.32rem 1rem;font-size:.69rem;color:var(--ink2)}
+.l-env span{display:flex;align-items:center;gap:.25rem}
+.close-btn{position:absolute;top:calc(var(--sat)+.65rem);right:1rem;width:28px;height:28px;border-radius:50%;background:rgba(128,128,128,.12);border:none;color:var(--ink2);font-size:.8rem;display:flex;align-items:center;justify-content:center;z-index:10}
+.cc{position:fixed;inset:0;pointer-events:none;z-index:300;overflow:hidden}
+.ch{position:absolute;top:-20px;animation:hfall linear forwards}
+@keyframes hfall{to{transform:translateY(110dvh) rotate(720deg);opacity:0}}
+.toast{position:fixed;bottom:calc(var(--sab)+5rem);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:.65rem 1.4rem;border-radius:2rem;font-size:.8rem;letter-spacing:.06em;opacity:0;pointer-events:none;transition:opacity .28s;z-index:400;white-space:nowrap;box-shadow:0 4px 16px var(--sh)}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="cc" id="cc"></div>
+<div class="toast" id="toast"></div>
+
+<!-- MIC PROMPT -->
+<div class="mic-prompt" id="micPrompt">
+  <div class="mic-card">
+    <span class="mic-icon">🎙</span>
+    <h3>Allow microphone?</h3>
+    <p>Record up to 5 seconds to seal into your letter.</p>
+    <div class="mic-card-btns">
+      <button class="mic-allow" onclick="micAllow()">Allow</button>
+      <button class="mic-deny"  onclick="micDeny()">Not now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LANDING — create or join ══ -->
+<div id="landingScreen" class="screen on">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <span class="s-icon">💌</span>
+      <h2>Our Letterbox</h2>
+      <p class="auth-sub">private letters, sealed in time</p>
+      <button class="pbtn" onclick="showScreen('setupScreen')">Create a new letterbox</button>
+      <div class="divider-row">or</div>
+      <button class="pbtn ghost" onclick="showScreen('joinScreen')">Join an existing one</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETUP — new letterbox ══ -->
+<div id="setupScreen" class="screen">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <span class="s-icon">💌</span>
+      <h2>Create your letterbox</h2>
+      <p class="auth-sub">you'll get a code to share with your partner</p>
+      <div class="name-pair">
+        <div class="sf" style="margin-bottom:0">
+          <label>Partner one</label>
+          <input type="text" id="sn1" placeholder="Name" autocomplete="off" oninput="onNameInput()">
+        </div>
+        <div class="sf" style="margin-bottom:0">
+          <label>Partner two</label>
+          <input type="text" id="sn2" placeholder="Name" autocomplete="off" oninput="onNameInput()">
+        </div>
+      </div>
+      <span class="who-pick-label">Who are you?</span>
+      <div class="who-pick">
+        <button id="swp0" onclick="setupSelWho(0)">Partner one</button>
+        <button id="swp1" onclick="setupSelWho(1)">Partner two</button>
+      </div>
+      <div class="sf">
+        <label>Shared password</label>
+        <input type="password" id="spw1" placeholder="Something only you two know…" autocomplete="new-password">
+      </div>
+      <div class="sf">
+        <label>Confirm password</label>
+        <input type="password" id="spw2" placeholder="Repeat it…" autocomplete="new-password" onkeydown="if(event.key==='Enter')createLetterbox()">
+        <div class="err" id="serr"></div>
+      </div>
+      <button class="pbtn" id="setupSubmitBtn" onclick="createLetterbox()">Create Our Letterbox ♥</button>
+      <p class="auth-note">Your letters are encrypted and stored in the cloud so both of you can access them from any device.</p>
+      <span class="danger-link" onclick="showScreen('landingScreen')">← Back</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ JOIN — enter code + password ══ -->
+<div id="joinScreen" class="screen">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <span class="s-icon">💌</span>
+      <h2>Join a letterbox</h2>
+      <p class="auth-sub">enter the code your partner shared with you</p>
+      <div class="sf">
+        <label>Letterbox code</label>
+        <input type="text" id="joinCode" placeholder="e.g. abc123de-…" autocomplete="off" style="font-family:monospace;font-size:.92rem" oninput="this.value=this.value.toLowerCase().trim();lookupCode()">
+      </div>
+      <span class="who-pick-label">Who are you?</span>
+      <div class="who-pick" id="joinWhoPick">
+        <button id="jwp0" onclick="joinSelWho(0)">…</button>
+        <button id="jwp1" onclick="joinSelWho(1)">…</button>
+      </div>
+      <div class="sf">
+        <label>Password</label>
+        <input type="password" id="jpw" placeholder="Your shared password…" autocomplete="current-password" onkeydown="if(event.key==='Enter')joinLetterbox()">
+        <div class="err" id="jerr"></div>
+      </div>
+      <button class="pbtn" id="joinSubmitBtn" onclick="joinLetterbox()">Open Our Letterbox ♥</button>
+      <span class="danger-link" onclick="showScreen('landingScreen')">← Back</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOGIN — returning user ══ -->
+<div id="loginScreen" class="screen">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <span class="s-icon">💌</span>
+      <div class="login-who-name" id="loginWhoName"></div>
+      <div class="login-couple"   id="loginCouple"></div>
+      <div class="who-switch">
+        <span id="switchLabel"></span>&nbsp;
+        <button onclick="toggleLoginWho()">Switch</button>
+      </div>
+      <div class="sf">
+        <label>Password</label>
+        <input type="password" id="lpw" placeholder="Your shared password…" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <div class="err" id="lerr"></div>
+      </div>
+      <label class="stay-row"><input type="checkbox" id="stayCheck"> Keep me unlocked on this device</label>
+      <button class="pbtn" onclick="doLogin()">Open Our Letterbox ♥</button>
+      <span class="danger-link" onclick="forgetDevice()">Use a different letterbox</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="appScreen" class="screen">
+  <div class="app-header">
+    <h1>Our Letterbox</h1>
+    <div class="hdr-names" id="hdrNames"></div>
+    <div class="hdr-actions">
+      <button class="who-badge" id="whoBadge" onclick="switchWho()"></button>
+      <button class="lock-btn" onclick="shareLetterbox()">🔗 share</button>
+      <button class="lock-btn" onclick="signOut()">🔒 lock</button>
+    </div>
+    <nav>
+      <button id="navWrite" onclick="showView('compose',this)">Write</button>
+      <button id="navBox"   onclick="showView('cardbox',this)">Card Box</button>
+    </nav>
+  </div>
+
+  <!-- COMPOSE -->
+  <div class="view" id="view-compose" style="display:none">
+    <div class="compose">
+      <div class="headspace-wrap">
+        <span class="hs-lbl">✦ Headspace check-in</span>
+        <textarea class="hs-input" id="hsInput" rows="2" placeholder="How are you feeling right now?"></textarea>
+      </div>
+      <div class="fto-bar">
+        <div class="fto-col me"><div class="fto-lbl">From</div><div class="fto-name" id="ftoFromName"></div></div>
+        <div class="fto-arr">→</div>
+        <div class="fto-col them"><div class="fto-lbl">To</div><div class="fto-name" id="ftoToName"></div></div>
+      </div>
+      <div class="fg">
+        <label>What prompted this entry?</label>
+        <input type="text" id="prompted" placeholder='"Just because" is always an ok response ♥'>
+      </div>
+      <div class="ts-block" id="tsBlock"></div>
+      <div class="historic-toggle"><button onclick="toggleHistoric()">📜 historic entry</button></div>
+      <div class="historic-wrap" id="historicWrap" style="display:none">
+        <label>Originally written</label>
+        <input type="datetime-local" id="writtenAt" style="width:100%;background:var(--card);border:1.5px solid rgba(200,169,110,.38);border-radius:10px;padding:.65rem .9rem;font-size:.95rem;color:var(--ink);outline:none;-webkit-appearance:none">
+        <p class="historic-hint">Entry timestamp stays live. Use this to record when you actually wrote it.</p>
+      </div>
+      <div class="fg">
+        <label>🌤 Weather right now</label>
+        <div class="wx-auto" id="wxAuto"><span class="wx-loading">Locating…</span></div>
+        <div class="wx-picker">
+          <button class="wx-pick-btn" data-wx="☀️"  data-label="Clear"         onclick="toggleWx(this)">☀️</button>
+          <button class="wx-pick-btn" data-wx="🌤️" data-label="Partly cloudy" onclick="toggleWx(this)">🌤️</button>
+          <button class="wx-pick-btn" data-wx="☁️"  data-label="Cloudy"        onclick="toggleWx(this)">☁️</button>
+          <button class="wx-pick-btn" data-wx="🌧️" data-label="Rainy"         onclick="toggleWx(this)">🌧️</button>
+          <button class="wx-pick-btn" data-wx="❄️"  data-label="Snowy"         onclick="toggleWx(this)">❄️</button>
+          <button class="wx-pick-btn" data-wx="🌙"  data-label="Night"         onclick="toggleWx(this)">🌙</button>
+          <button class="wx-pick-btn" data-wx="🥶"  data-label="Freezing"      onclick="toggleWx(this)">🥶</button>
+          <button class="wx-pick-btn" data-wx="🥵"  data-label="Hot"           onclick="toggleWx(this)">🥵</button>
+        </div>
+      </div>
+      <div class="fg"><label>Your letter ✦ sealed on send</label><textarea id="letterBody" placeholder="Write freely, write honestly…"></textarea></div>
+      <div class="fg"><label>🎵 Song / background noise</label><input type="text" id="entrySong" placeholder="e.g. Lover — Taylor Swift"></div>
+      <div class="fg"><label>🌿 Environmental cues</label><input type="text" id="entryEnv" placeholder="e.g. Sunday morning, still in pajamas…"></div>
+      <div class="fg">
+        <label>🎙 Capture a sound (up to 5 sec)</label>
+        <div class="audio-section">
+          <div class="audio-row">
+            <button class="rec-btn idle" id="recBtn" onclick="requestMic()">🎙</button>
+            <div>
+              <div class="rec-info" id="recInfo">Tap to record up to 5 seconds</div>
+              <div class="rec-timer" id="recTimer" style="display:none">0.0s</div>
+              <div class="rec-waveform" id="recWave" style="display:none"></div>
+            </div>
+          </div>
+          <div class="audio-playback" id="audioPlayback" style="display:none">
+            <audio id="audioPreview" controls></audio>
+          </div>
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="new-letter-btn" onclick="newLetter()">New letter</button>
+        <button class="send-btn" onclick="sendLetter()">Seal &amp; Send ♥</button>
+      </div>
+      <p class="disclaimer">Once sent, this letter is sealed forever — just like the moment it captures.</p>
+    </div>
+  </div>
+
+  <!-- CARD BOX -->
+  <div class="view" id="view-cardbox" style="display:none">
+    <div class="cardbox" id="cardboxInner"></div>
+  </div>
+</div>
+
+<!-- LETTER MODAL -->
+<div class="modal-back" id="modal" onclick="backdropClick(event)">
+  <div class="letter-sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-strip" id="shStrip"></div>
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <div class="sh-seal-row">
+      <button class="seal-btn" id="sealBtn" onclick="breakSeal()">💌</button>
+      <div class="seal-hint" id="sealHint">Tap the seal to open</div>
+    </div>
+    <div class="sh-letter" id="shLetter">
+      <div class="l-timing" id="lTiming"></div>
+      <div class="l-to"     id="lTo"></div>
+      <div class="l-hs"     id="lHs" style="display:none"></div>
+      <div class="l-body"   id="lBody"></div>
+      <div class="l-from"   id="lFrom"></div>
+      <div class="l-audio"  id="lAudio" style="display:none"><div class="l-audio-lbl">🎙 Sound from that moment</div><audio id="lAudioEl" controls></audio></div>
+      <div class="l-log"    id="lLog"></div>
+      <div class="l-env"    id="lEnv"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ════ SUPABASE ════ */
+const SB_URL = 'https://fqanpgkmzczoxcakdwwv.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxYW5wZ2ttemN6b3hjYWtkd3d2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NTQwMzcsImV4cCI6MjA5MDIzMDAzN30.aHuCwC73G2sxWEZGt68uuFmiYK6cRyDeL6TMk_Q_w6k';
+
+async function sbFetch(path, opts = {}) {
+  const method = opts.method || 'GET';
+  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+    method,
+    headers: {
+      'apikey':        SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type':  'application/json',
+      'Prefer':        'return=representation',
+    },
+    body: opts.body,
+  });
+  if (!res.ok) {
+    let msg = `HTTP ${res.status}`;
+    try { const j = await res.json(); msg = j.message || j.error || JSON.stringify(j); } catch(e) {}
+    throw new Error(msg);
+  }
+  const text = await res.text();
+  if (!text) return [];
+  const parsed = JSON.parse(text);
+  return Array.isArray(parsed) ? parsed : [parsed];
+}
+
+/* ════ CRYPTO ════ */
+async function hashPw(s) {
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('lb_v6_🩷_' + s));
+  return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join('');
+}
+
+/* ════ LOCAL STORAGE ════ */
+const LS_REL  = 'lb_rel_id';   // relationship UUID
+const LS_WHO  = 'lb_who';      // 0 or 1
+const WIP     = i => `lb_wip_${i}`;
+
+/* ════ APP STATE ════ */
+let relId  = null;   // UUID
+let relRow = null;   // { id, name1, name2, pw_hash }
+let who    = 0;
+let loginWho = 0;
+let letters  = [];
+let wxSel    = new Set();
+let wxAutoStr= null;
+let sessions = [], sessStart = null, clockInt = null;
+let sealBroken = false, openId = null;
+let mediaRec = null, recChunks = [], recTimerInt = null, recStart = null;
+let recDataUrl = null, recMimeType = '', analyser = null, waveInt = null, audioCtx = null;
+let _setupWho = 0, _joinWho = 0;
+
+/* ════ UTILS ════ */
+const $ = id => document.getElementById(id);
+const gv = id => ($( id)?.value || '').trim();
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function showToast(m, dur = 3000) {
+  const t = $('toast'); t.textContent = m; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+function wn(i) { return i === 0 ? relRow.name1 : relRow.name2; }
+function setLoading(btnId, loading, label) {
+  const b = $(btnId);
+  if (!b) return;
+  b.disabled = loading;
+  b.innerHTML = loading ? `<span class="spinner"></span>Working…` : label;
+}
+
+/* ════ SCREEN NAV ════ */
+function showScreen(id) {
+  ['landingScreen','setupScreen','joinScreen','loginScreen','appScreen']
+    .forEach(s => $(s).classList.toggle('on', s === id));
+}
+
+/* ════ BOOT ════ */
+window.addEventListener('load', async () => {
+  // Handle ?join=UUID invite links
+  const joinParam = new URLSearchParams(location.search).get('join');
+  if (joinParam) {
+    history.replaceState(null, '', location.pathname); // clean URL
+    showScreen('joinScreen');
+    $('joinCode').value = joinParam.toLowerCase().trim();
+    await lookupCode();
+    return;
+  }
+
+  relId = localStorage.getItem(LS_REL);
+  if (!relId) { showScreen('landingScreen'); return; }
+  // fetch rel row to confirm it still exists
+  try {
+    const rows = await sbFetch(`relationships?id=eq.${relId}&select=id,name1,name2,pw_hash`);
+    if (!rows || !rows.length) { localStorage.removeItem(LS_REL); showScreen('landingScreen'); return; }
+    relRow   = rows[0];
+    loginWho = parseInt(localStorage.getItem(LS_WHO) || '0', 10);
+    if (localStorage.getItem('lb_stay') === '1') { who = loginWho; bootApp(); return; }
+    showLoginScreen();
+  } catch(e) {
+    console.error('Boot error:', e);
+    showScreen('landingScreen');
+  }
+});
+
+/* ════ SETUP (create new) ════ */
+let _setupWhoIdx = 0;
+function onNameInput() {
+  const n1 = gv('sn1') || 'Partner one';
+  const n2 = gv('sn2') || 'Partner two';
+  $('swp0').textContent = n1;
+  $('swp1').textContent = n2;
+}
+function setupSelWho(i) {
+  _setupWhoIdx = i;
+  $('swp0').className = i === 0 ? 'wsel' : '';
+  $('swp1').className = i === 1 ? 'wsel' : '';
+}
+
+async function createLetterbox() {
+  const n1 = gv('sn1'), n2 = gv('sn2'), pw1 = gv('spw1'), pw2 = gv('spw2');
+  const err = $('serr'); err.textContent = '';
+  if (!n1 || !n2)    { err.textContent = 'Please enter both names ♥'; return; }
+  if (pw1.length < 4){ err.textContent = 'Password needs at least 4 characters'; return; }
+  if (pw1 !== pw2)   { err.textContent = "Passwords don't match"; return; }
+
+  setLoading('setupSubmitBtn', true, '');
+  try {
+    const h = await hashPw(pw1);
+    // Insert and get back the row
+    let rows = await sbFetch('relationships', {
+      method: 'POST',
+      body: JSON.stringify({ name1: n1, name2: n2, pw_hash: h }),
+    });
+    // If POST didn't return the row, fetch it by pw_hash
+    if (!rows || !rows.length || !rows[0]?.id) {
+      rows = await sbFetch(`relationships?pw_hash=eq.${h}&select=id,name1,name2,pw_hash&order=created_at.desc&limit=1`);
+    }
+    if (!rows || !rows.length) throw new Error('Could not retrieve created relationship');
+    relRow = rows[0];
+    relId  = relRow.id;
+    who    = _setupWhoIdx;
+    localStorage.setItem(LS_REL, relId);
+    localStorage.setItem(LS_WHO, who);
+    showShareCode(relId);
+  } catch(e) {
+    console.error('createLetterbox error:', e);
+    err.textContent = `Error: ${e.message}`;
+  } finally {
+    setLoading('setupSubmitBtn', false, 'Create Our Letterbox ♥');
+  }
+}
+
+function showShareCode(id) {
+  const joinUrl = location.origin + location.pathname + '?join=' + id;
+  const card = $('setupScreen').querySelector('.auth-card');
+  card.innerHTML = `
+    <span class="s-icon">🎉</span>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:.4rem">Your letterbox is ready!</h2>
+    <p style="font-size:.8rem;color:var(--ink2);margin-bottom:1.2rem;line-height:1.5">Send your partner this link — they'll just enter the shared password to join.</p>
+    <div style="background:var(--mel);border:1.5px solid var(--me);border-radius:10px;padding:.9rem 1rem;font-size:.82rem;word-break:break-all;color:var(--med);margin-bottom:1rem;user-select:all">${joinUrl}</div>
+    <button class="pbtn" style="margin-bottom:.6rem" onclick="copyLink('${joinUrl}')">Copy link</button>
+    <button class="pbtn ghost" onclick="bootApp()">Open Our Letterbox ♥</button>
+  `;
+}
+function copyLink(url) {
+  navigator.clipboard?.writeText(url).then(() => showToast('Link copied ♥'));
+}
+
+/* ════ JOIN (existing) ════ */
+let _joinWhoIdx = 0;
+function joinSelWho(i) {
+  _joinWhoIdx = i;
+  $('jwp0').className = i === 0 ? 'wsel' : '';
+  $('jwp1').className = i === 1 ? 'wsel' : '';
+}
+
+// lookupCode is called oninput on #joinCode
+
+async function joinLetterbox() {
+  const code = gv('joinCode').toLowerCase().replace(/\s/g, '');
+  const pw   = gv('jpw');
+  const err  = $('jerr'); err.textContent = '';
+
+  if (!code) { err.textContent = 'Please enter the letterbox code'; return; }
+  if (!pw)   { err.textContent = 'Please enter the password'; return; }
+
+  setLoading('joinSubmitBtn', true, '');
+  try {
+    const rows = await sbFetch(`relationships?id=eq.${code}&select=id,name1,name2,pw_hash`);
+    if (!rows || !rows.length) { err.textContent = 'Code not found — check it and try again'; return; }
+    const row = rows[0];
+    const h   = await hashPw(pw);
+    if (h !== row.pw_hash) { err.textContent = 'Incorrect password — try again ♥'; return; }
+    relRow = row;
+    relId  = row.id;
+    who    = _joinWhoIdx;
+    localStorage.setItem(LS_REL, relId);
+    localStorage.setItem(LS_WHO, who);
+    bootApp();
+  } catch(e) {
+    console.error('joinLetterbox error:', e);
+    err.textContent = 'Error: ' + e.message;
+  } finally {
+    setLoading('joinSubmitBtn', false, 'Open Our Letterbox ♥');
+  }
+}
+
+// Update partner labels as code is typed
+async function lookupCode() {
+  const code = gv('joinCode');
+  if (code.length < 8) {
+    $('jwp0').textContent = 'Partner one';
+    $('jwp1').textContent = 'Partner two';
+    return;
+  }
+  try {
+    const rows = await sbFetch(`relationships?id=eq.${code}&select=name1,name2`);
+    if (rows && rows.length) {
+      $('jwp0').textContent = rows[0].name1;
+      $('jwp1').textContent = rows[0].name2;
+      joinSelWho(0);
+    }
+  } catch(e) {}
+}
+window.addEventListener('DOMContentLoaded', () => {
+  const el = $('joinCode');
+  if (el) el.addEventListener('input', debounce(lookupCode, 500));
+});
+function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+/* ════ LOGIN ════ */
+function showLoginScreen() {
+  showScreen('loginScreen');
+  $('loginWhoName').textContent = wn(loginWho);
+  $('loginCouple').textContent  = `${relRow.name1} & ${relRow.name2}`;
+  $('switchLabel').textContent  = `Signing in as ${wn(loginWho)}`;
+}
+function toggleLoginWho() { loginWho = 1 - loginWho; showLoginScreen(); }
+async function doLogin() {
+  const pw = gv('lpw'), h = await hashPw(pw);
+  const err = $('lerr'); err.textContent = '';
+  if (h !== relRow.pw_hash) { err.textContent = 'Incorrect password — try again ♥'; return; }
+  $('lpw').value = '';
+  who = loginWho;
+  localStorage.setItem(LS_WHO, who);
+  if ($('stayCheck').checked) localStorage.setItem('lb_stay', '1');
+  else localStorage.removeItem('lb_stay');
+  bootApp();
+}
+function signOut() { stopClock(); localStorage.removeItem('lb_stay'); showLoginScreen(); }
+function shareLetterbox() {
+  const url = location.origin + location.pathname + '?join=' + relId;
+  navigator.clipboard?.writeText(url).then(() => showToast('Invite link copied ♥'));
+}
+function forgetDevice() {
+  if (confirm('This will forget this letterbox on your device. You can rejoin anytime with the code.')) {
+    localStorage.removeItem(LS_REL);
+    localStorage.removeItem(LS_WHO);
+    showScreen('landingScreen');
+  }
+}
+
+/* ════ BOOT APP ════ */
+async function bootApp() {
+  showScreen('appScreen');
+  $('hdrNames').textContent  = `${relRow.name1} & ${relRow.name2}`;
+  refreshWhoUI();
+  sessions = []; beginSess(); startClock(); fetchWeather();
+  showView('compose', $('navWrite'));
+  loadWip();
+  // fetch letters in background
+  await fetchLetters();
+}
+
+function refreshWhoUI() {
+  const me = wn(who), them = wn(1 - who);
+  $('whoBadge').textContent    = `✎ ${me}`;
+  $('ftoFromName').textContent = me;
+  $('ftoToName').textContent   = them;
+}
+function switchWho() {
+  saveWip();
+  who = 1 - who;
+  localStorage.setItem(LS_WHO, who);
+  refreshWhoUI();
+  updateUnreadDot();
+  sessions = []; beginSess(); updateTs();
+  wxSel = new Set(); wxAutoStr = null;
+  fetchWeather(); resetWxUI(); loadWip();
+  showToast(`Writing as ${wn(who)} ♥`);
+}
+
+/* ════ FETCH LETTERS ════ */
+function updateUnreadDot() {
+  const hasUnread = letters.some(l => l.writer_index !== who && !(l.opened_by||[]).includes(who));
+  $('navBox').classList.toggle('has-unread', hasUnread);
+}
+
+async function fetchLetters() {
+  try {
+    const rows = await sbFetch(
+      `letters?relationship_id=eq.${relId}&order=sent_at.desc&select=*`,
+      { prefer: 'return=representation' }
+    );
+    letters = rows || [];
+    updateUnreadDot();
+    if (document.getElementById('view-cardbox').style.display !== 'none') renderCardBox();
+  } catch(e) { /* silent — letters will be empty */ }
+}
+
+/* ════ TIMING ════ */
+function beginSess()  { sessStart = new Date(); }
+function endSess() {
+  if (!sessStart) return;
+  const end = new Date(), dur = Math.round((end - sessStart) / 1000);
+  if (dur >= 5) sessions.push({ start: sessStart.toISOString(), end: end.toISOString(), dur });
+  sessStart = null;
+}
+function totalDur() {
+  return sessions.reduce((s, x) => s + x.dur, 0) +
+         (sessStart ? Math.round((Date.now() - sessStart) / 1000) : 0);
+}
+function fmtDur(s) {
+  if (s < 60)   return `${s}s`;
+  if (s < 3600) return `${Math.floor(s/60)}m ${s%60}s`;
+  return `${Math.floor(s/3600)}h ${Math.floor((s%3600)/60)}m`;
+}
+function fmtT(iso) { return new Date(iso).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); }
+function fmtD(iso) { return new Date(iso).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}); }
+function fmtDL(iso){ return new Date(iso).toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'}); }
+function startClock() { stopClock(); updateTs(); clockInt = setInterval(updateTs, 12000); }
+function stopClock()  { if (clockInt) { clearInterval(clockInt); clockInt = null; } }
+function updateTs() {
+  const now = new Date();
+  const ds  = now.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+  const ts  = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  const st  = sessions.length ? fmtT(sessions[0].start) : (sessStart ? fmtT(sessStart.toISOString()) : ts);
+  $('tsBlock').innerHTML =
+    `<div class="ts-row"><span>📅 ${ds}</span><span>⏰ ${ts}</span></div>` +
+    `<div class="ts-sep"></div>` +
+    `<div class="ts-row"><span>Started ${st}</span><span class="ts-elapsed">⏱ ${fmtDur(totalDur())}</span></div>`;
+}
+
+/* ════ WEATHER ════ */
+const WX_OPTS = [
+  {e:'☀️',l:'Clear'},{e:'🌤️',l:'Partly cloudy'},{e:'☁️',l:'Cloudy'},
+  {e:'🌧️',l:'Rainy'},{e:'❄️',l:'Snowy'},{e:'🌙',l:'Night'},{e:'🥶',l:'Freezing'},{e:'🥵',l:'Hot'},
+];
+function fetchWeather() {
+  const el = $('wxAuto'); el.innerHTML = '<span class="wx-loading">Locating…</span>'; wxAutoStr = null;
+  if (!navigator.geolocation) { el.innerHTML='<span class="wx-loading">Pick below</span>'; return; }
+  navigator.geolocation.getCurrentPosition(pos => {
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&current_weather=true&temperature_unit=fahrenheit&forecast_days=1`)
+      .then(r=>r.json()).then(d=>{
+        const {emoji,label} = wCode(d.current_weather.weathercode);
+        wxAutoStr = `${emoji} ${label}, ${Math.round(d.current_weather.temperature)}°F`;
+        renderWxAuto();
+      }).catch(()=>{ $('wxAuto').innerHTML='<span class="wx-loading">Pick below</span>'; });
+  }, ()=>{ $('wxAuto').innerHTML='<span class="wx-loading">Pick below</span>'; }, {timeout:6000});
+}
+function renderWxAuto() {
+  const chips = [];
+  if (wxAutoStr) chips.push(`<span class="wx-chip">${wxAutoStr}</span>`);
+  wxSel.forEach(e => { const o=WX_OPTS.find(x=>x.e===e); if(o) chips.push(`<span class="wx-chip">${e} ${o.l}</span>`); });
+  $('wxAuto').innerHTML = chips.length ? chips.join('') : '<span class="wx-loading">Add weather</span>';
+}
+function toggleWx(btn) {
+  const e = btn.dataset.wx;
+  if (wxSel.has(e)) { wxSel.delete(e); btn.classList.remove('sel'); }
+  else              { wxSel.add(e);    btn.classList.add('sel'); }
+  renderWxAuto();
+}
+function buildWxStr() {
+  const p = []; if (wxAutoStr) p.push(wxAutoStr);
+  wxSel.forEach(e => { const o=WX_OPTS.find(x=>x.e===e); if(o) p.push(`${e} ${o.l}`); });
+  return p.join(' · ') || null;
+}
+function resetWxUI() {
+  document.querySelectorAll('.wx-pick-btn').forEach(b=>b.classList.remove('sel'));
+  $('wxAuto').innerHTML='<span class="wx-loading">Add weather</span>';
+}
+function wCode(c) {
+  if(c===0)return{emoji:'☀️',label:'Clear skies'};if(c<=2)return{emoji:'🌤️',label:'Partly cloudy'};
+  if(c===3)return{emoji:'☁️',label:'Overcast'};if(c<=49)return{emoji:'🌫️',label:'Foggy'};
+  if(c<=59)return{emoji:'🌦️',label:'Drizzle'};if(c<=69)return{emoji:'🌧️',label:'Rainy'};
+  if(c<=79)return{emoji:'❄️',label:'Snowy'};if(c<=84)return{emoji:'🌧️',label:'Rain showers'};
+  if(c<=99)return{emoji:'⛈️',label:'Thunderstorm'};return{emoji:'🌤️',label:'Mixed'};
+}
+
+/* ════ VIEWS ════ */
+function showView(name, btn) {
+  ['compose','cardbox'].forEach(v => $('view-'+v).style.display = v===name?'block':'none');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (name === 'cardbox') { fetchLetters().then(renderCardBox); }
+  if (name === 'compose') updateTs();
+}
+
+/* ════ WIP ════ */
+function toggleHistoric() {
+  const wrap = $('historicWrap');
+  const show = wrap.style.display === 'none';
+  wrap.style.display = show ? 'block' : 'none';
+  if (!show) $('writtenAt').value = '';
+}
+
+function saveWip() {
+  const body=document.getElementById('letterBody').value, hs=$('hsInput').value,
+        p=$('prompted').value, s=$('entrySong').value, e=$('entryEnv').value;
+  if (!body&&!hs&&!p&&!s&&!e) { localStorage.removeItem(WIP(who)); return; }
+  localStorage.setItem(WIP(who), JSON.stringify({
+    body,hs,prompted:p,song:s,env:e,
+    wxAuto:wxAutoStr,wxSels:[...wxSel],
+    audioDataUrl:recDataUrl||null,
+    sessions:[...sessions],savedAt:new Date().toISOString(),
+    writtenAt:$('writtenAt').value||null,
+    historicOpen:$('historicWrap').style.display!=='none',
+  }));
+}
+function loadWip() {
+  const raw = localStorage.getItem(WIP(who));
+  if (!raw) { clearCompose(); return; }
+  const d = JSON.parse(raw);
+  $('letterBody').value = d.body||'';   $('hsInput').value   = d.hs||'';
+  $('prompted').value   = d.prompted||''; $('entrySong').value = d.song||'';
+  $('entryEnv').value   = d.env||'';
+  wxAutoStr = d.wxAuto||null;  wxSel = new Set(d.wxSels||[]);
+  document.querySelectorAll('.wx-pick-btn').forEach(b=>b.classList.toggle('sel',wxSel.has(b.dataset.wx)));
+  renderWxAuto();
+  if (d.audioDataUrl) {
+    recDataUrl=$('audioPreview').src=d.audioDataUrl;
+    $('audioPlayback').style.display='block';
+    $('recBtn').className='rec-btn done'; $('recBtn').textContent='✓';
+    $('recInfo').textContent='Saved audio — tap to re-record';
+  }
+  if (d.historicOpen) { $('historicWrap').style.display='block'; $('writtenAt').value=d.writtenAt||''; }
+  sessions=d.sessions||[]; beginSess(); updateTs();
+}
+function clearCompose() {
+  ['letterBody','hsInput','prompted','entrySong','entryEnv'].forEach(id=>$(id).value='');
+  wxSel=new Set(); wxAutoStr=null; resetWxUI(); fetchWeather();
+  recDataUrl=null; $('audioPlayback').style.display='none';
+  $('recBtn').className='rec-btn idle'; $('recBtn').textContent='🎙';
+  $('recInfo').textContent='Tap to record up to 5 seconds';
+  $('writtenAt').value=''; $('historicWrap').style.display='none';
+}
+function newLetter() {
+  const has=$('letterBody').value||$('hsInput').value||$('prompted').value||$('entrySong').value||$('entryEnv').value;
+  if (!has){showToast('Already blank ♥');return;}
+  saveWip(); clearCompose(); sessions=[]; beginSess(); updateTs();
+  showToast('Cleared — write something new ♥');
+}
+
+/* ════ AUDIO ════ */
+function requestMic(){
+  if(mediaRec&&mediaRec.state==='recording'){stopRec();return;}
+  if(recDataUrl){startRec();return;}
+  $('micPrompt').classList.add('show');
+}
+function micAllow(){$('micPrompt').classList.remove('show');startRec();}
+function micDeny() {$('micPrompt').classList.remove('show');showToast('No worries — you can still write ♥');}
+async function startRec(){
+  recDataUrl=null;recChunks=[];$('audioPlayback').style.display='none';
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const src=audioCtx.createMediaStreamSource(stream);
+    analyser=audioCtx.createAnalyser();analyser.fftSize=64;src.connect(analyser);
+    recMimeType=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg'].find(t=>MediaRecorder.isTypeSupported(t))||'';
+    mediaRec=new MediaRecorder(stream, recMimeType?{mimeType:recMimeType}:{});
+    mediaRec.ondataavailable=e=>{if(e.data.size>0)recChunks.push(e.data);};
+    mediaRec.onstop=finishRec;mediaRec.start(100);recStart=Date.now();
+    $('recBtn').className='rec-btn recording';$('recBtn').textContent='⏹';
+    $('recInfo').style.display='none';$('recTimer').style.display='block';$('recWave').style.display='flex';
+    buildWaveUI();
+    recTimerInt=setInterval(()=>{const e=(Date.now()-recStart)/1000;$('recTimer').textContent=e.toFixed(1)+'s';if(e>=5)stopRec();},100);
+    waveInt=setInterval(drawWave,80);
+  }catch(e){showToast('Microphone access denied ♥');}
+}
+function buildWaveUI(){const w=$('recWave');w.innerHTML='';for(let i=0;i<20;i++){const b=document.createElement('div');b.className='rec-bar';b.style.height='3px';w.appendChild(b);}}
+function drawWave(){if(!analyser)return;const data=new Uint8Array(analyser.frequencyBinCount);analyser.getByteFrequencyData(data);document.querySelectorAll('#recWave .rec-bar').forEach((b,i)=>{b.style.height=Math.max(3,Math.round((data[i]||0)/255*26))+'px';});}
+function stopRec(){
+  if(mediaRec&&mediaRec.state==='recording'){mediaRec.stop();mediaRec.stream.getTracks().forEach(t=>t.stop());}
+  clearInterval(recTimerInt);clearInterval(waveInt);
+  if(audioCtx){try{audioCtx.close();}catch(e){}}
+  $('recTimer').style.display='none';$('recWave').style.display='none';$('recInfo').style.display='block';
+}
+function finishRec(){
+  const blob=new Blob(recChunks,{type:recMimeType||'audio/webm'});
+  const reader=new FileReader();
+  reader.onload=e=>{recDataUrl=e.target.result;$('audioPreview').src=recDataUrl;$('audioPlayback').style.display='block';};
+  reader.readAsDataURL(blob);
+  $('recBtn').className='rec-btn done';$('recBtn').textContent='✓';
+  $('recInfo').textContent=`Recorded ${((Date.now()-recStart)/1000).toFixed(1)}s — tap to re-record`;
+}
+
+/* ════ SEND ════ */
+async function sendLetter() {
+  const body = $('letterBody').value.trim();
+  if (!body) { showToast('Your letter needs some words ♥'); return; }
+  endSess();
+  const allSess = [...sessions];
+  const payload = {
+    relationship_id: relId,
+    writer_index:    who,
+    to_name:         wn(1-who),
+    from_name:       wn(who),
+    body,
+    headspace:    $('hsInput').value.trim()||null,
+    prompted:     $('prompted').value.trim()||'Just because',
+    sessions_json: allSess,
+    total_dur:    allSess.reduce((s,x)=>s+x.dur,0),
+    weather:      buildWxStr(),
+    song:         $('entrySong').value.trim()||null,
+    env:          $('entryEnv').value.trim()||null,
+    audio_data_url: recDataUrl||null,
+    written_at:   $('writtenAt').value ? new Date($('writtenAt').value).toISOString() : null,
+  };
+  try {
+    let rows = await sbFetch('letters', { method:'POST', body: JSON.stringify(payload) });
+    // Fallback: fetch the row we just inserted by relationship+timestamp
+    if (!rows || !rows.length || !rows[0]?.id) {
+      await new Promise(r => setTimeout(r, 300)); // brief wait for DB
+      rows = await sbFetch(`letters?relationship_id=eq.${relId}&order=sent_at.desc&limit=1&select=*`);
+    }
+    if (rows && rows.length) letters.unshift(rows[0]);
+    localStorage.removeItem(WIP(who));
+    launchHearts(22);
+    showToast('Your letter is sealed and safe ♥');
+    setTimeout(()=>{ clearCompose();sessions=[];beginSess();updateTs();showView('cardbox',$('navBox')); },1800);
+  } catch(e) {
+    console.error('sendLetter error:', e);
+    showToast('Could not send: ' + e.message);
+  }
+}
+
+/* ════ CARD BOX ════ */
+function renderCardBox() {
+  const box    = $('cardboxInner');
+  const opened = new Set();
+  // opened_by is stored as int[] in DB — check if who's index is in it
+  if (!letters.length) {
+    box.innerHTML = `<div class="cb-empty"><span class="icon">🗂️</span>Your card box is empty.<br>Write your first letter above.</div>`;
+    return;
+  }
+  const myIncoming  = letters.filter(l => l.writer_index !== who);
+  const myOutgoing  = letters.filter(l => l.writer_index === who);
+  let html = '';
+  const renderStack = (list, label) => {
+    if (!list.length) return;
+    const top = list[0];
+    const topCls = top.writer_index !== who ? 'card-me' : 'card-them';
+    const isOpen  = (top.opened_by||[]).includes(who);
+    const ts = new Date(top.sent_at);
+    const ds = ts.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const tm = ts.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    html += `<div class="section-hdr">${label}</div><div class="card-pile">`;
+    html += `
+      <div class="env-card stack-top ${topCls} ${isOpen?'opened':''}" onclick="openLetter('${top.id}')">
+        <div class="env-flap"><div class="env-seal">💌</div></div>
+        <div class="env-address">
+          <div class="env-to">For ${esc(top.to_name)}</div>
+          <div class="env-from">from ${esc(top.from_name)}</div>
+          <div class="env-meta">${ds} · ${tm}${top.audio_data_url?' · 🎙':''}</div>
+        </div>
+        <div class="env-postmark">Our<br>Box<br>✉</div>
+      </div>`;
+    list.slice(1, 4).forEach((l, i) => {
+      const pCls = l.writer_index !== who ? 'card-me' : 'card-them';
+      const pts = new Date(l.sent_at);
+      const pds = pts.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+      html += `<div class="stack-peek ${pCls} p${i+1}" onclick="openLetter('${l.id}')">
+        <span class="pk-label">${esc(l.from_name)} · ${pds}</span>
+      </div>`;
+    });
+    html += '</div>';
+  };
+  renderStack(myIncoming, `Letters for ${wn(who)}`);
+  renderStack(myOutgoing,  `Letters from ${wn(who)}`);
+  box.innerHTML = html;
+}
+
+/* ════ OPEN LETTER ════ */
+function openLetter(id) {
+  const l = letters.find(x => x.id === id); if (!l) return;
+  openId = id; sealBroken = false;
+  const isOpen = (l.opened_by||[]).includes(who);
+  const strip = $('shStrip');
+  strip.className = 'sh-strip' + (isOpen ? ' opened' : '');
+  if (!isOpen) strip.style.background = l.writer_index === who ? 'var(--me)' : 'var(--them-ink2)';
+  const sb = $('sealBtn');
+  sb.className    = 'seal-btn' + (isOpen ? ' cracked' : '');
+  sb.textContent  = '💌';
+  $('sealHint').textContent = isOpen ? 'sealed with love ♥' : 'Tap the seal to open';
+  const allS  = l.sessions_json || [];
+  const first = allS.length ? allS[0].start : l.sent_at;
+  let th = `<div class="lt-row"><span>📅 ${fmtDL(l.written_at || first)}</span></div>` +
+            `<div class="lt-sep"></div>`;
+  if (l.written_at) {
+    th += `<div class="lt-row"><span>📜 Written ${fmtD(l.written_at)} at ${fmtT(l.written_at)}</span></div>` +
+          `<div class="lt-row" style="opacity:.6;font-size:.68rem"><span>Entered ${fmtD(first)} · Sealed ${fmtT(l.sent_at)}</span></div>`;
+  } else {
+    th += `<div class="lt-row"><span>Started ${fmtT(first)}</span><span>Sealed ${fmtT(l.sent_at)}</span></div>`;
+  }
+  if (l.total_dur) th += `<div class="lt-row"><span>⏱ ${fmtDur(l.total_dur)} across ${allS.length} session${allS.length!==1?'s':''}</span></div>`;
+  $('lTiming').innerHTML = th;
+  $('lTo').textContent   = `Dear ${l.to_name},`;
+  $('lBody').textContent = l.body;
+  $('lFrom').textContent = `With love, ${l.from_name}`;
+  const lhs = $('lHs');
+  if (l.headspace) { lhs.style.display='block'; lhs.innerHTML=`<span class="l-hs-lbl">✦ Headspace</span>${esc(l.headspace)}`; }
+  else lhs.style.display='none';
+  const la = $('lAudio');
+  if (l.audio_data_url){la.style.display='block';$('lAudioEl').src=l.audio_data_url;}else la.style.display='none';
+  let lh='';
+  if(allS.length){lh=`<div class="l-log-title">✦ Writing sessions</div>`;allS.forEach((s,i)=>{lh+=`<div class="l-log-row"><span>Session ${i+1} &nbsp;${fmtD(s.start)} ${fmtT(s.start)} → ${fmtT(s.end)}</span><span>${fmtDur(s.dur)}</span></div>`;});}
+  $('lLog').innerHTML=lh;
+  const ev=[];
+  if(l.weather)ev.push(`<span>🌤 ${esc(l.weather)}</span>`);
+  if(l.song)ev.push(`<span>🎵 ${esc(l.song)}</span>`);
+  if(l.env)ev.push(`<span>🌿 ${esc(l.env)}</span>`);
+  if(l.prompted&&l.prompted!=='Just because')ev.push(`<span>💭 ${esc(l.prompted)}</span>`);
+  $('lEnv').innerHTML=ev.join('');
+  $('shLetter').classList.toggle('revealed',isOpen);
+  if(isOpen)sealBroken=true;
+  $('modal').classList.add('open');
+}
+
+async function breakSeal() {
+  if (sealBroken) return; sealBroken = true;
+  const l = letters.find(x => x.id === openId); if (!l) return;
+  const newOpened = [...new Set([...(l.opened_by||[]), who])];
+  try {
+    await sbFetch(`letters?id=eq.${openId}`, {
+      method: 'PATCH',
+      body:   JSON.stringify({ opened_by: newOpened }),
+    });
+    l.opened_by = newOpened;
+    updateUnreadDot();
+  } catch(e) {}
+  $('sealBtn').className    = 'seal-btn cracked';
+  $('sealHint').textContent = 'sealed with love ♥';
+  $('shStrip').className    = 'sh-strip opened';
+  setTimeout(() => $('shLetter').classList.add('revealed'), 300);
+  launchHearts(10); renderCardBox();
+}
+
+function backdropClick(e) { if (e.target === $('modal')) closeModal(); }
+function closeModal() { $('modal').classList.remove('open'); }
+
+/* ════ HEARTS ════ */
+function launchHearts(n=20){
+  const c=$('cc'),em=['♥','💕','💗','🩷','✨','💌','🤍','❤️'];
+  for(let i=0;i<n;i++){const el=document.createElement('div');el.className='ch';el.textContent=em[Math.floor(Math.random()*em.length)];el.style.left=Math.random()*100+'vw';el.style.fontSize=(0.8+Math.random()*1.3)+'rem';el.style.animationDuration=(2+Math.random()*2)+'s';el.style.animationDelay=Math.random()*.7+'s';c.appendChild(el);el.addEventListener('animationend',()=>el.remove());}
+}
+
+/* ════ AUTO-SAVE WIP ════ */
+setInterval(()=>{ if($('appScreen').classList.contains('on')&&$('view-compose').style.display!=='none')saveWip(); },45000);
+document.addEventListener('visibilitychange',()=>{ if(document.hidden&&$('appScreen').classList.contains('on'))saveWip(); });
+</script>
+</body>
+</html>
