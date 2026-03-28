@@ -65,25 +65,43 @@ input,textarea{font-family:inherit;font-size:16px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ══ APP CHROME ══ */
-.app-header{text-align:center;padding:calc(var(--sat)+1rem) 1rem .4rem;background:var(--cream);position:sticky;top:0;z-index:40}
+.app-header{text-align:center;padding:calc(var(--sat)+1rem) 0 .4rem;background:var(--cream);position:sticky;top:0;z-index:40}
 .app-header h1{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;color:var(--ink)}
 .hdr-names{font-family:'Playfair Display',serif;font-style:italic;font-size:.84rem;margin-top:.1rem;color:var(--ink2)}
-.hdr-actions{display:flex;justify-content:space-between;align-items:center;padding:.3rem 1rem 0}
+.hdr-actions{display:flex;justify-content:space-between;align-items:center;padding:.3rem 1.5rem 0}
 .who-badge{font-size:.7rem;letter-spacing:.09em;border-radius:2rem;padding:.28rem .8rem;border:1.5px solid var(--me);color:var(--me);background:transparent}
 .lock-btn{font-size:.7rem;color:var(--ink2);background:none;border:none;letter-spacing:.07em;padding:.28rem}
-nav{display:flex;padding:0 1rem .5rem;border-bottom:1px solid rgba(200,169,110,.25)}
+nav{display:flex;padding:0 1.5rem .5rem;border-bottom:1px solid rgba(200,169,110,.25)}
 nav button{flex:1;padding:.52rem .5rem;border:none;background:none;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);border-bottom:2.5px solid transparent;transition:color .18s,border-color .18s}
 nav button.active{color:var(--ink);font-weight:700;border-bottom-color:var(--me)}
 #navBox{position:relative}
 #navBox.has-unread::after{content:'';position:absolute;top:5px;right:8px;width:7px;height:7px;background:#c0272d;border-radius:50%;box-shadow:0 0 0 1.5px var(--cream)}
 
-/* ══ COMPOSE ══ */
-.compose{padding:1rem 1rem calc(var(--sab)+5rem);max-width:540px;margin:0 auto}
+/* ══ HEADER COMPACT ══ */
+.app-header{transition:padding .25s,box-shadow .25s}
+.app-header.compact{box-shadow:0 1px 8px var(--sh);padding-bottom:.1rem}
+.app-header.compact h1{font-size:.95rem;transition:font-size .25s}
+.app-header.compact .hdr-names{height:0;overflow:hidden;margin:0;font-size:0;transition:all .25s}
+
+/* ══ COMPOSE PANELS ══ */
+.compose-sub-nav{display:flex;max-width:540px;margin:0 auto;padding:0 1.5rem;border-top:1px solid rgba(200,169,110,.18)}
+.ptab{flex:1;padding:.52rem .5rem;border:none;background:none;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);border-bottom:2.5px solid transparent;transition:color .18s,border-color .18s;cursor:pointer}
+.ptab.active{color:var(--ink);font-weight:700;border-bottom-color:var(--me)}
+
+/* ══ LETTER PANEL ══ */
+.panel-letter{padding:.9rem 1.5rem calc(var(--sab)+5rem);max-width:540px;margin:0 auto}
+.letter-page{background:var(--card);border-radius:12px;padding:1.6rem 1.5rem 1.4rem;box-shadow:0 4px 24px var(--sh);background-image:repeating-linear-gradient(transparent,transparent 31px,var(--line) 31px,var(--line) 32px);background-position:0 62px}
+.letter-salutation{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--ink);margin-bottom:.8rem}
+.letter-body-input{width:100%;border:none;background:transparent;font-family:'Lato',sans-serif;font-size:1rem;color:var(--ink);outline:none;resize:none;line-height:2;min-height:52dvh;padding:0;-webkit-appearance:none;display:block}
+.letter-body-input::placeholder{color:var(--ink2);opacity:.4}
+.letter-sign-off{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--ink2);text-align:right;margin-top:1.2rem;padding-top:.6rem}
+
+/* ══ DETAILS PANEL ══ */
+.compose{padding:1rem 1.5rem calc(var(--sab)+5rem);max-width:540px;margin:0 auto}
 .headspace-wrap{border-radius:0 10px 10px 0;padding:.9rem 1.1rem;margin-bottom:1.3rem;border-left:3.5px solid var(--me);background:var(--mel)}
 .hs-lbl{display:block;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;margin-bottom:.5rem;color:var(--me)}
-.hs-input{width:100%;border:none;background:transparent;font-family:'Playfair Display',serif;font-style:italic;font-size:.97rem;color:var(--ink);outline:none;resize:none;line-height:1.5;padding:0;-webkit-appearance:none}
+.hs-input{width:100%;border:none;background:transparent;font-family:'Playfair Display',serif;font-style:italic;font-size:.97rem;color:var(--ink);outline:none;resize:none;line-height:1.5;padding:0;-webkit-appearance:none;overflow:hidden;height:1.5rem}
 .hs-input::placeholder{color:rgba(46,32,32,.3);font-style:italic}
-@media(prefers-color-scheme:dark){.hs-input::placeholder{color:rgba(240,232,230,.3)}}
 @media(prefers-color-scheme:dark){.hs-input::placeholder{color:rgba(240,232,230,.25)}}
 .fto-bar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:10px;padding:.78rem 1rem;margin-bottom:1.2rem;border:1.5px solid rgba(200,169,110,.28);box-shadow:0 1px 4px var(--sh)}
 .fto-col .fto-lbl{font-size:.58rem;letter-spacing:.17em;text-transform:uppercase;color:var(--ink2);margin-bottom:.15rem}
@@ -124,15 +142,39 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 .new-letter-btn{border:1.5px solid rgba(200,169,110,.45);background:transparent;border-radius:10px;padding:.8rem .95rem;font-size:.77rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);transition:background .18s;white-space:nowrap}
 .new-letter-btn:active{background:rgba(200,169,110,.1)}
 .disclaimer{font-size:.66rem;color:var(--ink2);margin-top:.55rem;text-align:center}
+.del-audio-btn{margin-top:.6rem;background:none;border:none;font-size:.72rem;letter-spacing:.1em;color:var(--ink2);opacity:.5;cursor:pointer;padding:.2rem 0;text-transform:uppercase}
+.song-row{position:relative;margin-bottom:.6rem}
+.song-text-input{width:100%;background:var(--card);border:1.5px solid rgba(200,169,110,.38);border-radius:10px;padding:.75rem .95rem;font-size:1rem;color:var(--ink);outline:none;-webkit-appearance:none;transition:border-color .2s,box-shadow .2s}
+.song-text-input:focus{border-color:var(--me);box-shadow:0 0 0 3px rgba(192,39,45,.1)}
+.song-embed{border-radius:10px;overflow:hidden;margin-bottom:.2rem}
+.song-embed iframe{width:100%;border:none;display:block}
+.song-type-badge{display:inline-block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);opacity:.5;margin-top:.25rem;padding:.1rem 0}
+.song-row-del{background:none;border:none;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);opacity:.45;cursor:pointer;padding:.15rem 0;display:block;margin-top:.2rem}
+.add-song-btn{background:none;border:none;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);opacity:.45;cursor:pointer;padding:.2rem 0;margin-bottom:.7rem;display:block}
+.l-songs{margin-top:.9rem;padding-top:.7rem;border-top:1px dashed rgba(200,169,110,.35)}
+.l-songs-lbl{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.5rem;font-weight:700}
+.l-song-text{font-size:.85rem;color:var(--ink2);margin-bottom:.3rem}
+.l-song-embed{border-radius:8px;overflow:hidden;margin-bottom:.5rem}
+.l-song-embed iframe{width:100%;border:none;display:block}
+.sound-sub-hdr{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.5rem;font-weight:700}
+.nc-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.nc-label{font-size:.82rem;color:var(--ink2)}
+.toggle-switch{position:relative;display:inline-block;width:40px;height:24px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:rgba(200,169,110,.28);border-radius:24px;cursor:pointer;transition:.22s}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.22s;box-shadow:0 1px 3px rgba(0,0,0,.22)}
+.toggle-switch input:checked+.toggle-slider{background:var(--me)}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(16px)}
 .historic-toggle{text-align:right;margin-top:-.5rem;margin-bottom:1.1rem}
-.historic-toggle button{background:none;border:none;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);opacity:.45;cursor:pointer;padding:.2rem 0;transition:opacity .18s}
-.historic-toggle button:hover{opacity:.75}
+.historic-toggle button{background:transparent;border:1px solid rgba(200,169,110,.5);border-radius:7px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);opacity:.75;cursor:pointer;padding:.32rem .72rem;transition:all .18s;font-family:inherit}
+.historic-toggle button:hover{opacity:1}
+.historic-toggle button.hist-active{border-color:var(--me);color:var(--me);opacity:1;font-weight:700}
 .historic-wrap{background:rgba(200,169,110,.07);border:1px dashed rgba(200,169,110,.4);border-radius:9px;padding:.75rem .9rem;margin-top:-.6rem;margin-bottom:1.1rem}
 .historic-wrap label{display:block;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-bottom:.35rem;font-weight:700}
 .historic-hint{font-size:.67rem;color:var(--ink2);opacity:.6;margin-top:.4rem;line-height:1.4}
 
 /* ══ CARD BOX ══ */
-.cardbox{padding:.9rem 1rem calc(var(--sab)+5rem);max-width:540px;margin:0 auto}
+.cardbox{padding:.9rem 1.5rem calc(var(--sab)+5rem);max-width:540px;margin:0 auto}
 .cb-empty{text-align:center;padding:3.5rem 1.5rem;font-family:'Playfair Display',serif;font-style:italic;color:var(--ink2);font-size:1rem}
 .cb-empty .icon{font-size:2.8rem;display:block;margin-bottom:.8rem}
 .section-hdr{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding:.8rem 0 .35rem;font-weight:700}
@@ -179,6 +221,19 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 .env-meta{font-size:.64rem}
 .env-postmark{position:absolute;right:10px;bottom:10px;width:40px;height:40px;border:1.5px solid;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.33rem;letter-spacing:.07em;text-transform:uppercase;z-index:10}
 
+/* ══ STACK BROWSER ══ */
+.stack-sheet{width:100%;max-width:540px;background:var(--card);border-radius:20px 20px 0 0;box-shadow:0 -10px 50px rgba(46,32,32,.22);max-height:80dvh;display:flex;flex-direction:column;animation:shUp .38s cubic-bezier(.34,1.28,.64,1) both;padding-bottom:calc(var(--sab)+.5rem)}
+.stack-sheet-hdr{padding:.65rem 1.4rem .5rem;flex-shrink:0;border-bottom:1px solid var(--line)}
+.stack-sheet-title{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--ink2)}
+.stack-list{overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.stamp-row{display:flex;align-items:center;gap:.9rem;padding:.9rem 1.4rem;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s}
+.stamp-row:active{background:rgba(200,169,110,.1)}
+.stamp-envelope{font-size:1.5rem;flex-shrink:0}
+.stamp-info{flex:1}
+.stamp-date{font-family:'Playfair Display',serif;font-style:italic;font-size:.97rem;color:var(--ink)}
+.stamp-meta{font-size:.7rem;color:var(--ink2);margin-top:.1rem;letter-spacing:.04em}
+.stamp-dot{width:8px;height:8px;border-radius:50%;background:var(--me);flex-shrink:0}
+
 /* mic prompt */
 .mic-prompt{display:none;position:fixed;inset:0;background:rgba(46,32,32,.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:1.5rem}
 .mic-prompt.show{display:flex}
@@ -202,7 +257,7 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 .seal-btn{width:48px;height:48px;border-radius:50%;border:none;font-size:1.45rem;display:flex;align-items:center;justify-content:center;background:var(--me);box-shadow:0 4px 14px rgba(192,39,45,.4);transition:transform .38s cubic-bezier(.34,1.56,.64,1),background .28s,box-shadow .28s,filter .28s}
 .seal-btn.cracked{background:#ccc!important;box-shadow:none!important;transform:scale(.68) rotate(36deg);filter:grayscale(1);cursor:default}
 .seal-hint{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
-.sh-letter{flex:1;overflow-y:auto;padding:.4rem 1.4rem 1.4rem;background-image:repeating-linear-gradient(transparent,transparent 27px,var(--line) 27px,var(--line) 28px);background-position:0 34px;opacity:0;transform:translateY(12px);transition:opacity .38s .25s,transform .38s .25s;-webkit-overflow-scrolling:touch}
+.sh-letter{flex:1;overflow-y:auto;padding:.4rem 1.75rem 1.75rem;background-image:repeating-linear-gradient(transparent,transparent 27px,var(--line) 27px,var(--line) 28px);background-position:0 34px;opacity:0;transform:translateY(12px);transition:opacity .38s .25s,transform .38s .25s;-webkit-overflow-scrolling:touch}
 .sh-letter.revealed{opacity:1;transform:none}
 .l-timing{background:rgba(200,169,110,.1);border-radius:8px;padding:.6rem .85rem;margin-bottom:.9rem;font-size:.71rem;color:var(--ink2);line-height:1.7}
 .l-timing .lt-row{display:flex;flex-wrap:wrap;gap:.3rem 1rem}
@@ -350,7 +405,7 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 
 <!-- ══ APP ══ -->
 <div id="appScreen" class="screen">
-  <div class="app-header">
+  <div class="app-header" id="appHeader">
     <h1>Our Letterbox</h1>
     <div class="hdr-names" id="hdrNames"></div>
     <div class="hdr-actions">
@@ -362,75 +417,118 @@ textarea{resize:none;min-height:200px;line-height:1.75}
       <button id="navWrite" onclick="showView('compose',this)">Write</button>
       <button id="navBox"   onclick="showView('cardbox',this)">Card Box</button>
     </nav>
+    <div class="compose-sub-nav" id="composeSubNav" style="display:none">
+      <button id="panelTabLetter"  class="ptab active" onclick="showPanel('letter')">✦ Letter</button>
+      <button id="panelTabDetails" class="ptab"        onclick="showPanel('details')">Details</button>
+    </div>
   </div>
 
   <!-- COMPOSE -->
   <div class="view" id="view-compose" style="display:none">
-    <div class="compose">
-      <div class="headspace-wrap">
-        <span class="hs-lbl">✦ Headspace check-in</span>
-        <textarea class="hs-input" id="hsInput" rows="2" placeholder="How are you feeling right now?"></textarea>
-      </div>
-      <div class="fto-bar">
-        <div class="fto-col me"><div class="fto-lbl">From</div><div class="fto-name" id="ftoFromName"></div></div>
-        <div class="fto-arr">→</div>
-        <div class="fto-col them"><div class="fto-lbl">To</div><div class="fto-name" id="ftoToName"></div></div>
-      </div>
-      <div class="fg">
-        <label>What prompted this entry?</label>
-        <input type="text" id="prompted" placeholder='"Just because" is always an ok response ♥'>
-      </div>
-      <div class="ts-block" id="tsBlock"></div>
-      <div class="historic-toggle"><button onclick="toggleHistoric()">📜 historic entry</button></div>
-      <div class="historic-wrap" id="historicWrap" style="display:none">
-        <label>Originally written</label>
-        <input type="datetime-local" id="writtenAt" style="width:100%;background:var(--card);border:1.5px solid rgba(200,169,110,.38);border-radius:10px;padding:.65rem .9rem;font-size:.95rem;color:var(--ink);outline:none;-webkit-appearance:none">
-        <p class="historic-hint">Entry timestamp stays live. Use this to record when you actually wrote it.</p>
-      </div>
-      <div class="fg">
-        <label>🌤 Weather right now</label>
-        <div class="wx-auto" id="wxAuto"><span class="wx-loading">Locating…</span></div>
-        <div class="wx-picker">
-          <button class="wx-pick-btn" data-wx="☀️"  data-label="Clear"         onclick="toggleWx(this)">☀️</button>
-          <button class="wx-pick-btn" data-wx="🌤️" data-label="Partly cloudy" onclick="toggleWx(this)">🌤️</button>
-          <button class="wx-pick-btn" data-wx="☁️"  data-label="Cloudy"        onclick="toggleWx(this)">☁️</button>
-          <button class="wx-pick-btn" data-wx="🌧️" data-label="Rainy"         onclick="toggleWx(this)">🌧️</button>
-          <button class="wx-pick-btn" data-wx="❄️"  data-label="Snowy"         onclick="toggleWx(this)">❄️</button>
-          <button class="wx-pick-btn" data-wx="🌙"  data-label="Night"         onclick="toggleWx(this)">🌙</button>
-          <button class="wx-pick-btn" data-wx="🥶"  data-label="Freezing"      onclick="toggleWx(this)">🥶</button>
-          <button class="wx-pick-btn" data-wx="🥵"  data-label="Hot"           onclick="toggleWx(this)">🥵</button>
-        </div>
-      </div>
-      <div class="fg"><label>Your letter ✦ sealed on send</label><textarea id="letterBody" placeholder="Write freely, write honestly…"></textarea></div>
-      <div class="fg"><label>🎵 Song / background noise</label><input type="text" id="entrySong" placeholder="e.g. Lover — Taylor Swift"></div>
-      <div class="fg"><label>🌿 Environmental cues</label><input type="text" id="entryEnv" placeholder="e.g. Sunday morning, still in pajamas…"></div>
-      <div class="fg">
-        <label>🎙 Capture a sound (up to 5 sec)</label>
-        <div class="audio-section">
-          <div class="audio-row">
-            <button class="rec-btn idle" id="recBtn" onclick="requestMic()">🎙</button>
-            <div>
-              <div class="rec-info" id="recInfo">Tap to record up to 5 seconds</div>
-              <div class="rec-timer" id="recTimer" style="display:none">0.0s</div>
-              <div class="rec-waveform" id="recWave" style="display:none"></div>
-            </div>
-          </div>
-          <div class="audio-playback" id="audioPlayback" style="display:none">
-            <audio id="audioPreview" controls></audio>
-          </div>
-        </div>
+
+    <!-- ── LETTER PANEL ── -->
+    <div id="panelLetter" class="panel-letter">
+      <div class="letter-page">
+        <div class="letter-salutation">Dear <span id="ltrToName"></span>,</div>
+        <textarea id="letterBody" class="letter-body-input" placeholder="Write freely, write honestly…"></textarea>
+        <div class="letter-sign-off">With love, <span id="ltrFromName"></span></div>
       </div>
       <div class="action-row">
         <button class="new-letter-btn" onclick="newLetter()">New letter</button>
-        <button class="send-btn" onclick="sendLetter()">Seal &amp; Send ♥</button>
+        <button class="send-btn" onclick="confirmDetails()">Seal &amp; Send ♥</button>
       </div>
-      <p class="disclaimer">Once sent, this letter is sealed forever — just like the moment it captures.</p>
     </div>
+
+    <!-- ── DETAILS PANEL ── -->
+    <div id="panelDetails" class="panel-details" style="display:none">
+      <div class="compose">
+        <div class="fto-bar">
+          <div class="fto-col me"><div class="fto-lbl">From</div><div class="fto-name" id="ftoFromName"></div></div>
+          <div class="fto-arr">→</div>
+          <div class="fto-col them"><div class="fto-lbl">To</div><div class="fto-name" id="ftoToName"></div></div>
+        </div>
+        <div class="headspace-wrap">
+          <span class="hs-lbl">✦ Headspace check-in</span>
+          <textarea class="hs-input" id="hsInput" rows="1" placeholder="How are you feeling right now?" oninput="autoResize(this)"></textarea>
+        </div>
+        <div class="fg">
+          <label>What prompted this entry?</label>
+          <input type="text" id="prompted" placeholder='"Just because" is always an ok response ♥'>
+        </div>
+        <div class="fg"><label>Setting</label><input type="text" id="entryEnv" placeholder="e.g. Sunday morning, still in pajamas…"></div>
+        <div class="ts-block" id="tsBlock"></div>
+        <div class="historic-toggle"><button id="historicBtn" onclick="toggleHistoric()">historic entry</button></div>
+        <div class="historic-wrap" id="historicWrap" style="display:none">
+          <label>Originally written</label>
+          <input type="datetime-local" id="writtenAt" oninput="updateHistoricBtn()" style="width:100%;background:var(--card);border:1.5px solid rgba(200,169,110,.38);border-radius:10px;padding:.65rem .9rem;font-size:.95rem;color:var(--ink);outline:none;-webkit-appearance:none">
+          <p class="historic-hint">Entry timestamp stays live. Use this to record when you actually wrote it.</p>
+        </div>
+        <div class="fg">
+          <label>Weather right now</label>
+          <div class="wx-auto" id="wxAuto"><span class="wx-loading">Locating…</span></div>
+          <div class="wx-picker">
+            <button class="wx-pick-btn" data-wx="☀️"  data-label="Clear"         onclick="toggleWx(this)">☀️</button>
+            <button class="wx-pick-btn" data-wx="🌤️" data-label="Partly cloudy" onclick="toggleWx(this)">🌤️</button>
+            <button class="wx-pick-btn" data-wx="☁️"  data-label="Cloudy"        onclick="toggleWx(this)">☁️</button>
+            <button class="wx-pick-btn" data-wx="🌧️" data-label="Rainy"         onclick="toggleWx(this)">🌧️</button>
+            <button class="wx-pick-btn" data-wx="❄️"  data-label="Snowy"         onclick="toggleWx(this)">❄️</button>
+            <button class="wx-pick-btn" data-wx="🌙"  data-label="Night"         onclick="toggleWx(this)">🌙</button>
+            <button class="wx-pick-btn" data-wx="🥶"  data-label="Freezing"      onclick="toggleWx(this)">🥶</button>
+            <button class="wx-pick-btn" data-wx="🥵"  data-label="Hot"           onclick="toggleWx(this)">🥵</button>
+          </div>
+        </div>
+        <div class="fg">
+          <div class="sound-sub-hdr">Music</div>
+          <div id="songList"></div>
+          <button class="add-song-btn" id="addSongBtn" onclick="addSong()">+ add another</button>
+        </div>
+        <div class="fg">
+          <div class="sound-sub-hdr">Background noise</div>
+          <div class="nc-row">
+            <span class="nc-label">Noise cancellation</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="ncToggle" onchange="noiseCancel=this.checked">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="audio-section">
+            <div class="audio-row">
+              <button class="rec-btn idle" id="recBtn" onclick="requestMic()">🎙</button>
+              <div>
+                <div class="rec-info" id="recInfo">Tap to record up to 5 seconds</div>
+                <div class="rec-timer" id="recTimer" style="display:none">0.0s</div>
+                <div class="rec-waveform" id="recWave" style="display:none"></div>
+              </div>
+            </div>
+            <div class="audio-playback" id="audioPlayback" style="display:none">
+              <audio id="audioPreview" controls></audio>
+            </div>
+            <button class="del-audio-btn" id="delAudioBtn" style="display:none" onclick="deleteAudio()">✕ Remove audio</button>
+          </div>
+        </div>
+        <div class="action-row" style="padding-bottom:.5rem">
+          <button class="send-btn" onclick="sendLetter()">Seal &amp; Send ♥</button>
+        </div>
+        <p class="disclaimer">Once sent, this letter is sealed forever — just like the moment it captures.</p>
+      </div>
+    </div>
+
   </div>
 
   <!-- CARD BOX -->
   <div class="view" id="view-cardbox" style="display:none">
     <div class="cardbox" id="cardboxInner"></div>
+  </div>
+</div>
+
+<!-- STACK BROWSER -->
+<div class="modal-back" id="stackModal" onclick="if(event.target===this)closeStack()">
+  <div class="stack-sheet">
+    <div class="sh-handle"></div>
+    <div class="stack-sheet-hdr">
+      <div class="stack-sheet-title" id="stackSheetTitle"></div>
+    </div>
+    <div class="stack-list" id="stackList"></div>
   </div>
 </div>
 
@@ -451,6 +549,7 @@ textarea{resize:none;min-height:200px;line-height:1.75}
       <div class="l-body"   id="lBody"></div>
       <div class="l-from"   id="lFrom"></div>
       <div class="l-audio"  id="lAudio" style="display:none"><div class="l-audio-lbl">🎙 Sound from that moment</div><audio id="lAudioEl" controls></audio></div>
+      <div class="l-songs"  id="lSongs" style="display:none"></div>
       <div class="l-log"    id="lLog"></div>
       <div class="l-env"    id="lEnv"></div>
     </div>
@@ -506,6 +605,9 @@ let loginWho = 0;
 let letters  = [];
 let wxSel    = new Set();
 let wxAutoStr= null;
+let wxCity   = null;
+let songs    = [{text:'', url:'', type:'text'}];
+let noiseCancel = false;
 let sessions = [], sessStart = null, clockInt = null;
 let sealBroken = false, openId = null;
 let mediaRec = null, recChunks = [], recTimerInt = null, recStart = null;
@@ -726,7 +828,10 @@ async function bootApp() {
   $('hdrNames').textContent  = `${relRow.name1} & ${relRow.name2}`;
   refreshWhoUI();
   sessions = []; beginSess(); startClock(); fetchWeather();
-  showView('compose', $('navWrite'));
+  const lastView  = localStorage.getItem('lb_last_view')  || 'cardbox';
+  const lastPanel = localStorage.getItem('lb_last_panel') || 'letter';
+  showView(lastView, lastView === 'cardbox' ? $('navBox') : $('navWrite'));
+  if (lastView === 'compose') showPanel(lastPanel);
   loadWip();
   // fetch letters in background
   await fetchLetters();
@@ -737,6 +842,31 @@ function refreshWhoUI() {
   $('whoBadge').textContent    = `✎ ${me}`;
   $('ftoFromName').textContent = me;
   $('ftoToName').textContent   = them;
+  $('ltrFromName').textContent = me;
+  $('ltrToName').textContent   = them;
+}
+
+/* ══ COMPOSE PANELS ══ */
+function confirmDetails() {
+  const body = $('letterBody').value.trim();
+  if (!body) { showToast('Your letter needs some words ♥'); return; }
+  showPanel('details');
+  showToast('Confirm your details, then seal & send ♥');
+}
+
+function showPanel(p) {
+  const toLetter = p === 'letter';
+  $('panelLetter').style.display  = toLetter ? 'block' : 'none';
+  $('panelDetails').style.display = toLetter ? 'none'  : 'block';
+  $('panelTabLetter').classList.toggle('active',  toLetter);
+  $('panelTabDetails').classList.toggle('active', !toLetter);
+  if (!toLetter) { updateTs(); autoResize($('hsInput')); }
+  localStorage.setItem('lb_last_panel', p);
+}
+
+/* ══ COMPACT HEADER ON SCROLL ══ */
+function onComposeScroll() {
+  $('appHeader').classList.toggle('compact', window.scrollY > 48);
 }
 function switchWho() {
   saveWip();
@@ -744,6 +874,7 @@ function switchWho() {
   localStorage.setItem(LS_WHO, who);
   refreshWhoUI();
   updateUnreadDot();
+  if ($('view-cardbox').style.display !== 'none') fetchLetters().then(renderCardBox);
   sessions = []; beginSess(); updateTs();
   wxSel = new Set(); wxAutoStr = null;
   fetchWeather(); resetWxUI(); loadWip();
@@ -795,8 +926,10 @@ function updateTs() {
   const ds  = now.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
   const ts  = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
   const st  = sessions.length ? fmtT(sessions[0].start) : (sessStart ? fmtT(sessStart.toISOString()) : ts);
+  const cityLine = wxCity ? `<div class="ts-row" style="opacity:.65;font-size:.69rem"><span>📍 ${esc(wxCity)}</span></div><div class="ts-sep"></div>` : '';
   $('tsBlock').innerHTML =
-    `<div class="ts-row"><span>📅 ${ds}</span><span>⏰ ${ts}</span></div>` +
+    `<div class="ts-row"><span>${ds}</span><span>${ts}</span></div>` +
+    cityLine +
     `<div class="ts-sep"></div>` +
     `<div class="ts-row"><span>Started ${st}</span><span class="ts-elapsed">⏱ ${fmtDur(totalDur())}</span></div>`;
 }
@@ -810,18 +943,36 @@ function fetchWeather() {
   const el = $('wxAuto'); el.innerHTML = '<span class="wx-loading">Locating…</span>'; wxAutoStr = null;
   if (!navigator.geolocation) { el.innerHTML='<span class="wx-loading">Pick below</span>'; return; }
   navigator.geolocation.getCurrentPosition(pos => {
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&current_weather=true&temperature_unit=fahrenheit&forecast_days=1`)
+    const {latitude:lat, longitude:lon} = pos.coords;
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&daily=sunrise,sunset&timezone=auto&forecast_days=1`)
       .then(r=>r.json()).then(d=>{
-        const {emoji,label} = wCode(d.current_weather.weathercode);
+        const now = Date.now();
+        const sunrise = new Date(d.daily?.sunrise?.[0]).getTime();
+        const sunset  = new Date(d.daily?.sunset?.[0]).getTime();
+        const isNight = sunrise && sunset && (now < sunrise || now > sunset);
+        const {emoji,label} = isNight ? {emoji:'🌙',label:'Night'} : wCode(d.current_weather.weathercode);
         wxAutoStr = `${emoji} ${label}, ${Math.round(d.current_weather.temperature)}°F`;
         renderWxAuto();
       }).catch(()=>{ $('wxAuto').innerHTML='<span class="wx-loading">Pick below</span>'; });
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+      .then(r=>r.json()).then(geo=>{
+        const a = geo.address||{};
+        const city = a.city||a.town||a.village||a.hamlet||'';
+        const cc = (a.country_code||'').toLowerCase();
+        if (cc==='us') {
+          const abbr = US_ST[a.state]||a.state||'';
+          wxCity = city+(abbr?', '+abbr:'');
+        } else {
+          wxCity = city+(a.country?', '+a.country:'');
+        }
+        updateTs();
+      }).catch(()=>{});
   }, ()=>{ $('wxAuto').innerHTML='<span class="wx-loading">Pick below</span>'; }, {timeout:6000});
 }
 function renderWxAuto() {
   const chips = [];
-  if (wxAutoStr) chips.push(`<span class="wx-chip">${wxAutoStr}</span>`);
-  wxSel.forEach(e => { const o=WX_OPTS.find(x=>x.e===e); if(o) chips.push(`<span class="wx-chip">${e} ${o.l}</span>`); });
+  if (wxAutoStr) chips.push(makeChip(wxAutoStr));
+  wxSel.forEach(e => { const o=WX_OPTS.find(x=>x.e===e); if(o) chips.push(makeChip(`${e} ${o.l}`)); });
   $('wxAuto').innerHTML = chips.length ? chips.join('') : '<span class="wx-loading">Add weather</span>';
 }
 function toggleWx(btn) {
@@ -847,31 +998,143 @@ function wCode(c) {
   if(c<=99)return{emoji:'⛈️',label:'Thunderstorm'};return{emoji:'🌤️',label:'Mixed'};
 }
 
+/* ════ US STATE ABBR ════ */
+const US_ST={Alabama:'AL',Alaska:'AK',Arizona:'AZ',Arkansas:'AR',California:'CA',Colorado:'CO',Connecticut:'CT',Delaware:'DE',Florida:'FL',Georgia:'GA',Hawaii:'HI',Idaho:'ID',Illinois:'IL',Indiana:'IN',Iowa:'IA',Kansas:'KS',Kentucky:'KY',Louisiana:'LA',Maine:'ME',Maryland:'MD',Massachusetts:'MA',Michigan:'MI',Minnesota:'MN',Mississippi:'MS',Missouri:'MO',Montana:'MT',Nebraska:'NE',Nevada:'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND',Ohio:'OH',Oklahoma:'OK',Oregon:'OR',Pennsylvania:'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD',Tennessee:'TN',Texas:'TX',Utah:'UT',Vermont:'VT',Virginia:'VA',Washington:'WA','West Virginia':'WV',Wisconsin:'WI',Wyoming:'WY','District of Columbia':'DC'};
+
+/* ════ WEATHER CHIP HELPER ════ */
+function makeChip(text) {
+  const m = text.match(/^(\S+)\s+(.+)$/);
+  if (m) return `<span class="wx-chip"><span>${m[1]}</span><span>${m[2]}</span></span>`;
+  return `<span class="wx-chip">${text}</span>`;
+}
+
+/* ════ SONGS ════ */
+function detectMusicUrl(val) {
+  const spM = val.match(/open\.spotify\.com\/(track|album|playlist|artist)\//);
+  if (spM) return {type:'spotify', subtype:spM[1]};
+  const apM = val.match(/music\.apple\.com\/[a-z-]+\/(album|song|playlist|artist)\//);
+  if (apM) return {type:'apple', subtype: apM[1]==='song'?'track':apM[1]};
+  if (/music\.apple\.com\//.test(val)) return {type:'apple', subtype:'album'};
+  return {type:'text', subtype:null};
+}
+function songEmbedUrl(url, type) {
+  if (type === 'spotify') return url.replace('open.spotify.com/', 'open.spotify.com/embed/').split('?')[0];
+  if (type === 'apple')   return url.replace('https://music.apple.com/', 'https://embed.music.apple.com/').split('?')[0];
+  return null;
+}
+function songEmbedHtml(s) {
+  const eu = songEmbedUrl(s.url, s.type);
+  if (!eu) return '';
+  let h = 80;
+  if (s.type === 'apple') h = 175;
+  else if (s.subtype === 'album' || s.subtype === 'playlist') h = 152;
+  const badge = (s.subtype && s.subtype !== 'track') ? `<div class="song-type-badge">${s.subtype}</div>` : '';
+  return `<iframe src="${eu}" height="${h}" frameborder="0" allowtransparency="true" allow="encrypted-media" loading="lazy" style="width:100%;border:none;display:block"></iframe>${badge}`;
+}
+const MAX_SONGS = 3;
+function renderSongs() {
+  const el = $('songList');
+  if (!songs.length) songs.push({text:'',url:'',type:'text'});
+  el.innerHTML = songs.map((s, i) => {
+    const embed = s.type !== 'text' && s.url ? `<div class="song-embed">${songEmbedHtml(s)}</div>` : '';
+    const del   = songs.length > 1 ? `<button class="song-row-del" onclick="removeSong(${i})">✕ remove</button>` : '';
+    const val   = s.text.replace(/"/g,'&quot;');
+    return `<div class="song-row" data-idx="${i}">
+      <input class="song-text-input" type="text" placeholder="Song name or paste Spotify / Apple Music URL" value="${val}" oninput="onSongInput(${i},this.value)">
+      ${embed}${del}</div>`;
+  }).join('');
+  const addBtn = $('addSongBtn');
+  if (addBtn) addBtn.style.display = songs.length >= MAX_SONGS ? 'none' : 'block';
+}
+function addSong() {
+  if (songs.length >= MAX_SONGS) return;
+  songs.push({text:'',url:'',type:'text'});
+  renderSongs();
+  setTimeout(()=>{
+    const inputs=$('songList').querySelectorAll('.song-text-input');
+    if(inputs.length) inputs[inputs.length-1].focus();
+  },50);
+}
+function removeSong(i) {
+  songs.splice(i,1);
+  if(!songs.length) songs.push({text:'',url:'',type:'text'});
+  renderSongs();
+}
+function onSongInput(i, val) {
+  const {type, subtype} = detectMusicUrl(val);
+  songs[i] = {text:val, url: type!=='text'?val:'', type, subtype};
+  const row = $('songList').querySelectorAll('.song-row')[i];
+  if (!row) return;
+  let embedDiv = row.querySelector('.song-embed');
+  if (type !== 'text' && val) {
+    const html = songEmbedHtml(songs[i]);
+    if (html) {
+      if (embedDiv) embedDiv.innerHTML = html;
+      else {
+        embedDiv = document.createElement('div');
+        embedDiv.className = 'song-embed';
+        embedDiv.innerHTML = html;
+        row.querySelector('input').after(embedDiv);
+      }
+    }
+  } else if (embedDiv) {
+    embedDiv.remove();
+  }
+}
+
+/* ════ HISTORIC BUTTON ════ */
+function updateHistoricBtn() {
+  const btn = $('historicBtn');
+  if (!btn) return;
+  const val = $('writtenAt').value;
+  if (val) {
+    btn.textContent = 'this was written in the past — override timestamp';
+    btn.classList.add('hist-active');
+  } else {
+    btn.textContent = 'historic entry';
+    btn.classList.remove('hist-active');
+  }
+}
+
 /* ════ VIEWS ════ */
 function showView(name, btn) {
   ['compose','cardbox'].forEach(v => $('view-'+v).style.display = v===name?'block':'none');
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   if (btn) btn.classList.add('active');
-  if (name === 'cardbox') { fetchLetters().then(renderCardBox); }
-  if (name === 'compose') updateTs();
+  $('composeSubNav').style.display = name==='compose' ? 'flex' : 'none';
+  localStorage.setItem('lb_last_view', name);
+  if (name === 'cardbox') {
+    window.removeEventListener('scroll', onComposeScroll);
+    $('appHeader').classList.remove('compact');
+    window.scrollTo(0, 0);
+    fetchLetters().then(renderCardBox);
+  }
+  if (name === 'compose') {
+    showPanel('letter');
+    updateTs();
+    window.addEventListener('scroll', onComposeScroll);
+  }
 }
 
 /* ════ WIP ════ */
+function autoResize(el) { el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+
 function toggleHistoric() {
   const wrap = $('historicWrap');
   const show = wrap.style.display === 'none';
   wrap.style.display = show ? 'block' : 'none';
-  if (!show) $('writtenAt').value = '';
+  if (!show) { $('writtenAt').value = ''; updateHistoricBtn(); }
 }
 
 function saveWip() {
   const body=document.getElementById('letterBody').value, hs=$('hsInput').value,
-        p=$('prompted').value, s=$('entrySong').value, e=$('entryEnv').value;
-  if (!body&&!hs&&!p&&!s&&!e) { localStorage.removeItem(WIP(who)); return; }
+        p=$('prompted').value, e=$('entryEnv').value;
+  const hasSong = songs.some(s=>s.text);
+  if (!body&&!hs&&!p&&!hasSong&&!e) { localStorage.removeItem(WIP(who)); return; }
   localStorage.setItem(WIP(who), JSON.stringify({
-    body,hs,prompted:p,song:s,env:e,
+    body,hs,prompted:p,songs:songs.map(s=>({text:s.text,url:s.url,type:s.type,subtype:s.subtype||null})),env:e,
     wxAuto:wxAutoStr,wxSels:[...wxSel],
-    audioDataUrl:recDataUrl||null,
+    audioDataUrl:recDataUrl||null,nc:noiseCancel,
     sessions:[...sessions],savedAt:new Date().toISOString(),
     writtenAt:$('writtenAt').value||null,
     historicOpen:$('historicWrap').style.display!=='none',
@@ -882,30 +1145,39 @@ function loadWip() {
   if (!raw) { clearCompose(); return; }
   const d = JSON.parse(raw);
   $('letterBody').value = d.body||'';   $('hsInput').value   = d.hs||'';
-  $('prompted').value   = d.prompted||''; $('entrySong').value = d.song||'';
+  $('prompted').value   = d.prompted||'';
   $('entryEnv').value   = d.env||'';
+  songs = (d.songs&&d.songs.length) ? d.songs : [{text:d.song||'',url:'',type:'text'}];
+  renderSongs();
   wxAutoStr = d.wxAuto||null;  wxSel = new Set(d.wxSels||[]);
   document.querySelectorAll('.wx-pick-btn').forEach(b=>b.classList.toggle('sel',wxSel.has(b.dataset.wx)));
   renderWxAuto();
   if (d.audioDataUrl) {
     recDataUrl=$('audioPreview').src=d.audioDataUrl;
     $('audioPlayback').style.display='block';
+    $('delAudioBtn').style.display='block';
     $('recBtn').className='rec-btn done'; $('recBtn').textContent='✓';
     $('recInfo').textContent='Saved audio — tap to re-record';
   }
-  if (d.historicOpen) { $('historicWrap').style.display='block'; $('writtenAt').value=d.writtenAt||''; }
+  noiseCancel = d.nc||false; $('ncToggle').checked = noiseCancel;
+  if (d.historicOpen) { $('historicWrap').style.display='block'; $('writtenAt').value=d.writtenAt||''; updateHistoricBtn(); }
+  autoResize($('hsInput'));
   sessions=d.sessions||[]; beginSess(); updateTs();
 }
 function clearCompose() {
-  ['letterBody','hsInput','prompted','entrySong','entryEnv'].forEach(id=>$(id).value='');
+  ['letterBody','hsInput','prompted','entryEnv'].forEach(id=>$(id).value='');
+  songs=[{text:'',url:'',type:'text'}]; renderSongs();
   wxSel=new Set(); wxAutoStr=null; resetWxUI(); fetchWeather();
-  recDataUrl=null; $('audioPlayback').style.display='none';
+  recDataUrl=null; $('audioPlayback').style.display='none'; $('delAudioBtn').style.display='none';
   $('recBtn').className='rec-btn idle'; $('recBtn').textContent='🎙';
   $('recInfo').textContent='Tap to record up to 5 seconds';
+  noiseCancel=false; $('ncToggle').checked=false;
   $('writtenAt').value=''; $('historicWrap').style.display='none';
+  updateHistoricBtn();
+  autoResize($('hsInput'));
 }
 function newLetter() {
-  const has=$('letterBody').value||$('hsInput').value||$('prompted').value||$('entrySong').value||$('entryEnv').value;
+  const has=$('letterBody').value||$('hsInput').value||$('prompted').value||songs.some(s=>s.text)||$('entryEnv').value;
   if (!has){showToast('Already blank ♥');return;}
   saveWip(); clearCompose(); sessions=[]; beginSess(); updateTs();
   showToast('Cleared — write something new ♥');
@@ -948,10 +1220,17 @@ function stopRec(){
 function finishRec(){
   const blob=new Blob(recChunks,{type:recMimeType||'audio/webm'});
   const reader=new FileReader();
-  reader.onload=e=>{recDataUrl=e.target.result;$('audioPreview').src=recDataUrl;$('audioPlayback').style.display='block';};
+  reader.onload=e=>{recDataUrl=e.target.result;$('audioPreview').src=recDataUrl;$('audioPlayback').style.display='block';$('delAudioBtn').style.display='block';};
   reader.readAsDataURL(blob);
   $('recBtn').className='rec-btn done';$('recBtn').textContent='✓';
   $('recInfo').textContent=`Recorded ${((Date.now()-recStart)/1000).toFixed(1)}s — tap to re-record`;
+}
+function deleteAudio(){
+  recDataUrl=null;
+  $('audioPlayback').style.display='none';
+  $('delAudioBtn').style.display='none';
+  $('recBtn').className='rec-btn idle';$('recBtn').textContent='🎙';
+  $('recInfo').textContent='Tap to record up to 5 seconds';
 }
 
 /* ════ SEND ════ */
@@ -971,9 +1250,11 @@ async function sendLetter() {
     sessions_json: allSess,
     total_dur:    allSess.reduce((s,x)=>s+x.dur,0),
     weather:      buildWxStr(),
-    song:         $('entrySong').value.trim()||null,
+    song:         songs[0]?.text||null,
+    songs_json:   songs.filter(s=>s.text||s.url).map(s=>({text:s.text,url:s.url,type:s.type,subtype:s.subtype||null}))||null,
     env:          $('entryEnv').value.trim()||null,
     audio_data_url: recDataUrl||null,
+    nc_enabled: noiseCancel,
     written_at:   $('writtenAt').value ? new Date($('writtenAt').value).toISOString() : null,
   };
   try {
@@ -1014,9 +1295,10 @@ function renderCardBox() {
     const ts = new Date(top.sent_at);
     const ds = ts.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
     const tm = ts.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    html += `<div class="section-hdr">${label}</div><div class="card-pile">`;
+    const idsAttr = list.map(l => `'${l.id}'`).join(',');
+    html += `<div class="section-hdr">${label}</div><div class="card-pile" onclick="openStack(${idsAttr})" style="cursor:pointer">`;
     html += `
-      <div class="env-card stack-top ${topCls} ${isOpen?'opened':''}" onclick="openLetter('${top.id}')">
+      <div class="env-card stack-top ${topCls} ${isOpen?'opened':''}">
         <div class="env-flap"><div class="env-seal">💌</div></div>
         <div class="env-address">
           <div class="env-to">For ${esc(top.to_name)}</div>
@@ -1029,7 +1311,7 @@ function renderCardBox() {
       const pCls = l.writer_index !== who ? 'card-me' : 'card-them';
       const pts = new Date(l.sent_at);
       const pds = pts.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-      html += `<div class="stack-peek ${pCls} p${i+1}" onclick="openLetter('${l.id}')">
+      html += `<div class="stack-peek ${pCls} p${i+1}">
         <span class="pk-label">${esc(l.from_name)} · ${pds}</span>
       </div>`;
     });
@@ -1039,6 +1321,34 @@ function renderCardBox() {
   renderStack(myOutgoing,  `Letters from ${wn(who)}`);
   box.innerHTML = html;
 }
+
+/* ════ STACK BROWSER ════ */
+function openStack(...ids) {
+  const list = ids.map(id => letters.find(l => l.id === id)).filter(Boolean);
+  if (!list.length) return;
+  $('stackSheetTitle').textContent = `${list[0].to_name}'s letters — ${list.length}`;
+  $('stackList').innerHTML = list.map(l => {
+    const isOpen = (l.opened_by||[]).includes(who);
+    const ts  = new Date(l.written_at || l.sent_at);
+    const ds  = ts.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+    const tm  = ts.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const dot = !isOpen && l.writer_index !== who ? '<span class="stamp-dot"></span>' : '';
+    return `<div class="stamp-row" onclick="openFromStack('${l.id}')">
+      <span class="stamp-envelope">${isOpen?'✉':'💌'}</span>
+      <div class="stamp-info">
+        <div class="stamp-date">${ds}</div>
+        <div class="stamp-meta">${tm} · from ${esc(l.from_name)}${l.audio_data_url?' · 🎙':''}</div>
+      </div>
+      ${dot}
+    </div>`;
+  }).join('');
+  $('stackModal').classList.add('open');
+}
+function openFromStack(id) {
+  closeStack();
+  setTimeout(() => openLetter(id), 220);
+}
+function closeStack() { $('stackModal').classList.remove('open'); }
 
 /* ════ OPEN LETTER ════ */
 function openLetter(id) {
@@ -1071,14 +1381,38 @@ function openLetter(id) {
   if (l.headspace) { lhs.style.display='block'; lhs.innerHTML=`<span class="l-hs-lbl">✦ Headspace</span>${esc(l.headspace)}`; }
   else lhs.style.display='none';
   const la = $('lAudio');
-  if (l.audio_data_url){la.style.display='block';$('lAudioEl').src=l.audio_data_url;}else la.style.display='none';
+  if (l.audio_data_url || l.nc_enabled) {
+    la.style.display='block';
+    const ncBadge = l.nc_enabled ? ' <span style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-left:.4rem">noise cancellation on</span>' : '';
+    la.querySelector('.l-audio-lbl').innerHTML = '🎙 Background noise' + ncBadge;
+    const audioEl = $('lAudioEl');
+    if (l.audio_data_url) { audioEl.src=l.audio_data_url; audioEl.style.display='block'; }
+    else audioEl.style.display='none';
+  } else { la.style.display='none'; }
+  // Songs
+  const lSongs = $('lSongs');
+  const slist = l.songs_json && l.songs_json.length ? l.songs_json : (l.song ? [{text:l.song,url:'',type:'text'}] : []);
+  if (slist.length) {
+    let sh='<div class="l-songs-lbl">♫ Sound</div>';
+    slist.forEach(s=>{
+      if (s.type==='spotify'&&s.url) {
+        if(s.text)sh+=`<div class="l-song-text">${esc(s.text)}</div>`;
+        sh+=`<div class="l-song-embed">${songEmbedHtml(s)}</div>`;
+      } else if (s.type==='apple'&&s.url) {
+        if(s.text)sh+=`<div class="l-song-text">${esc(s.text)}</div>`;
+        sh+=`<div class="l-song-embed">${songEmbedHtml(s)}</div>`;
+      } else if (s.text) {
+        sh+=`<div class="l-song-text">${esc(s.text)}</div>`;
+      }
+    });
+    lSongs.innerHTML=sh; lSongs.style.display='block';
+  } else { lSongs.style.display='none'; }
   let lh='';
   if(allS.length){lh=`<div class="l-log-title">✦ Writing sessions</div>`;allS.forEach((s,i)=>{lh+=`<div class="l-log-row"><span>Session ${i+1} &nbsp;${fmtD(s.start)} ${fmtT(s.start)} → ${fmtT(s.end)}</span><span>${fmtDur(s.dur)}</span></div>`;});}
   $('lLog').innerHTML=lh;
   const ev=[];
-  if(l.weather)ev.push(`<span>🌤 ${esc(l.weather)}</span>`);
-  if(l.song)ev.push(`<span>🎵 ${esc(l.song)}</span>`);
-  if(l.env)ev.push(`<span>🌿 ${esc(l.env)}</span>`);
+  if(l.weather)ev.push(`<span>${esc(l.weather)}</span>`);
+  if(l.env)ev.push(`<span>${esc(l.env)}</span>`);
   if(l.prompted&&l.prompted!=='Just because')ev.push(`<span>💭 ${esc(l.prompted)}</span>`);
   $('lEnv').innerHTML=ev.join('');
   $('shLetter').classList.toggle('revealed',isOpen);
