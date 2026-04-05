@@ -644,6 +644,7 @@ textarea{resize:none;min-height:200px;line-height:1.75}
       <div class="l-env"    id="lEnv"></div>
       <button class="reply-btn" id="replyBtn" style="display:none" onclick="startReply()">↩ Reply</button>
       <div class="dl-row" id="dlRow" style="display:none">
+        <button class="dl-btn" id="copyLetterBtn" onclick="copyLetter()">⎘ Copy</button>
         <button class="dl-btn" onclick="downloadLetter()">↓ Letter</button>
         <button class="dl-btn" id="dlAudioBtn" style="display:none" onclick="downloadAudio()">↓ Audio</button>
       </div>
@@ -1778,6 +1779,21 @@ function _triggerDownload(blob, filename) {
   a.href = url; a.download = filename;
   document.body.appendChild(a); a.click();
   setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+}
+async function copyLetter() {
+  const l = letters.find(x => x.id === openId); if (!l) return;
+  const lines = [];
+  lines.push(`Dear ${l.to_name},`, '', l.body || '', '', `${ed().signoff} ${l.from_name}`);
+  if (l.headspace) lines.push('', '— Headspace —', l.headspace);
+  const slist = l.songs_json && l.songs_json.length ? l.songs_json : (l.song ? [{text:l.song,url:'',type:'text'}] : []);
+  if (slist.length) { lines.push('', '♫ Sound'); slist.forEach(s => { if (s.text) lines.push(s.text); if (s.url) lines.push(s.url); }); }
+  const dt = l.written_at || l.sent_at;
+  if (dt) lines.push('', '—', fmtD(dt) + ' · ' + fmtT(dt));
+  try {
+    await navigator.clipboard.writeText(lines.join('\n'));
+    const btn = $('copyLetterBtn'); const orig = btn.textContent;
+    btn.textContent = '✓ Copied'; setTimeout(() => btn.textContent = orig, 1800);
+  } catch(e) { console.error('copy failed', e); }
 }
 async function downloadLetter() {
   const l = letters.find(x => x.id === openId); if (!l) return;
