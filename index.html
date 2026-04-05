@@ -338,6 +338,7 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 .theme-custom-row label{font-size:.72rem;color:var(--ink2);white-space:nowrap}
 .theme-custom-row input[type=color]{width:36px;height:28px;border:1.5px solid rgba(200,169,110,.4);border-radius:7px;padding:2px;cursor:pointer;background:var(--card)}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 </head>
 <body>
 
@@ -1803,16 +1804,40 @@ async function downloadLetter() {
 }
 async function downloadAudio() {
   const l = letters.find(x => x.id === openId); if (!l || !l.audio_data_url) return;
-  const res = await fetch(l.audio_data_url);
-  const blob = await res.blob();
-  const mime = blob.type || '';
-  const ext = mime.includes('ogg') ? 'ogg' : mime.includes('mp4') ? 'm4a' : mime.includes('wav') ? 'wav' : 'webm';
   const safeName = 'audio_from_' + (l.from_name || 'them').replace(/[^a-z0-9]/gi,'_').toLowerCase();
-  const file = new File([blob], safeName + '.' + ext, {type: mime});
-  if (navigator.canShare && navigator.canShare({files:[file]})) {
-    try { await navigator.share({files:[file]}); return; } catch(e) { if (e.name === 'AbortError') return; }
+  // Decode to PCM then encode as MP3 via lamejs
+  try {
+    const res = await fetch(l.audio_data_url);
+    const arrayBuf = await res.arrayBuffer();
+    const ac = new AudioContext();
+    const audioBuf = await ac.decodeAudioData(arrayBuf);
+    ac.close();
+    const nch = audioBuf.numberOfChannels;
+    const sr = audioBuf.sampleRate;
+    const toInt16 = f32 => { const out = new Int16Array(f32.length); for (let i=0;i<f32.length;i++){const s=Math.max(-1,Math.min(1,f32[i]));out[i]=s<0?s*0x8000:s*0x7FFF;} return out; };
+    const L = toInt16(audioBuf.getChannelData(0));
+    const R = nch > 1 ? toInt16(audioBuf.getChannelData(1)) : L;
+    const enc = new lamejs.Mp3Encoder(nch > 1 ? 2 : 1, sr, 128);
+    const chunks = []; const block = 1152;
+    for (let i=0; i<L.length; i+=block) {
+      const lc = L.subarray(i, i+block);
+      const buf = nch > 1 ? enc.encodeBuffer(lc, R.subarray(i, i+block)) : enc.encodeBuffer(lc);
+      if (buf.length) chunks.push(buf);
+    }
+    const tail = enc.flush(); if (tail.length) chunks.push(tail);
+    const blob = new Blob(chunks, {type:'audio/mpeg'});
+    const file = new File([blob], safeName+'.mp3', {type:'audio/mpeg'});
+    if (navigator.canShare && navigator.canShare({files:[file]})) {
+      try { await navigator.share({files:[file]}); return; } catch(e) { if (e.name==='AbortError') return; }
+    }
+    _triggerDownload(blob, safeName+'.mp3');
+  } catch(e) {
+    console.error('MP3 encode failed', e);
+    // fallback: download original format
+    const res = await fetch(l.audio_data_url);
+    const blob = await res.blob();
+    _triggerDownload(blob, safeName+'.webm');
   }
-  _triggerDownload(blob, safeName + '.' + ext);
 }
 function backdropClick(e) { if (e.target === $('modal')) closeModal(); }
 function closeModal() {
