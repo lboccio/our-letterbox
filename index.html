@@ -172,6 +172,9 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 .historic-toggle button.hist-active{border-color:var(--me);color:var(--me);opacity:1;font-weight:700}
 .reply-btn{display:block;width:100%;border:1.5px solid var(--me);background:transparent;border-radius:10px;padding:.75rem;font-family:'Playfair Display',serif;font-size:.95rem;font-style:italic;color:var(--me);cursor:pointer;margin-top:1rem;letter-spacing:.03em;transition:opacity .18s}
 .reply-btn:active{opacity:.7}
+.dl-row{display:flex;gap:.6rem;margin-top:.75rem}
+.dl-btn{flex:1;border:1.5px solid rgba(200,169,110,.45);background:transparent;border-radius:10px;padding:.6rem .5rem;font-family:'Playfair Display',serif;font-size:.82rem;font-style:italic;color:var(--ink2);cursor:pointer;letter-spacing:.03em;transition:opacity .18s}
+.dl-btn:active{opacity:.6}
 .reply-req-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0}
 .reply-req-label{font-size:.82rem;color:var(--ink2);letter-spacing:.04em}
 .reply-req-banner{display:flex;align-items:center;justify-content:space-between;background:var(--mel);border:1px solid var(--me);border-radius:8px;padding:.65rem .9rem;margin-top:1rem;font-size:.8rem;color:var(--med)}
@@ -639,6 +642,10 @@ textarea{resize:none;min-height:200px;line-height:1.75}
       <div class="l-log"    id="lLog"></div>
       <div class="l-env"    id="lEnv"></div>
       <button class="reply-btn" id="replyBtn" style="display:none" onclick="startReply()">↩ Reply</button>
+      <div class="dl-row" id="dlRow" style="display:none">
+        <button class="dl-btn" onclick="downloadLetter()">↓ Letter</button>
+        <button class="dl-btn" id="dlAudioBtn" style="display:none" onclick="downloadAudio()">↓ Audio</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1662,6 +1669,10 @@ function openLetter(id) {
   const lhs = $('lHs');
   if (l.headspace) { lhs.style.display='block'; lhs.innerHTML=`<span class="l-hs-lbl">✦ Headspace</span>${esc(l.headspace)}`; }
   else lhs.style.display='none';
+  // Download buttons — dev only
+  $('dlRow').style.display = IS_DEV ? 'flex' : 'none';
+  if (IS_DEV) $('dlAudioBtn').style.display = l.audio_data_url ? 'block' : 'none';
+
   const la = $('lAudio');
   if (l.audio_data_url || l.nc_enabled) {
     la.style.display='block';
@@ -1758,6 +1769,50 @@ function toggleTimingDetail() {
 function toggleSessionsDetail() {
   const d=$('lsDetail'), c=$('lsChevron'), show=d.style.display==='none';
   d.style.display=show?'block':'none'; if(c)c.textContent=show?'▴':'▾';
+}
+const IS_DEV = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.endsWith('.dev') || location.hostname.endsWith('.vercel.app') || new URLSearchParams(location.search).has('dev');
+function _triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+}
+async function downloadLetter() {
+  const l = letters.find(x => x.id === openId); if (!l) return;
+  const lines = [];
+  lines.push(`Dear ${l.to_name},`, '', l.body || '', '', `${ed().signoff} ${l.from_name}`);
+  if (l.headspace) lines.push('', '— Headspace —', l.headspace);
+  const slist = l.songs_json && l.songs_json.length ? l.songs_json : (l.song ? [{text:l.song,url:'',type:'text'}] : []);
+  if (slist.length) {
+    lines.push('', '♫ Sound');
+    slist.forEach(s => { if (s.text) lines.push(s.text); if (s.url) lines.push(s.url); });
+  }
+  lines.push('', '—');
+  const dt = l.written_at || l.sent_at;
+  if (dt) lines.push(fmtD(dt) + ' · ' + fmtT(dt));
+  if (l.weather) lines.push(l.weather);
+  if (l.env) lines.push(l.env);
+  const safeName = 'letter_from_' + (l.from_name || 'them').replace(/[^a-z0-9]/gi,'_').toLowerCase();
+  const blob = new Blob([lines.join('\n')], {type:'text/plain'});
+  const file = new File([blob], safeName + '.txt', {type:'text/plain'});
+  if (navigator.canShare && navigator.canShare({files:[file]})) {
+    try { await navigator.share({files:[file]}); return; } catch(e) { if (e.name === 'AbortError') return; }
+  }
+  _triggerDownload(blob, safeName + '.txt');
+}
+async function downloadAudio() {
+  const l = letters.find(x => x.id === openId); if (!l || !l.audio_data_url) return;
+  const res = await fetch(l.audio_data_url);
+  const blob = await res.blob();
+  const mime = blob.type || '';
+  const ext = mime.includes('ogg') ? 'ogg' : mime.includes('mp4') ? 'm4a' : mime.includes('wav') ? 'wav' : 'webm';
+  const safeName = 'audio_from_' + (l.from_name || 'them').replace(/[^a-z0-9]/gi,'_').toLowerCase();
+  const file = new File([blob], safeName + '.' + ext, {type: mime});
+  if (navigator.canShare && navigator.canShare({files:[file]})) {
+    try { await navigator.share({files:[file]}); return; } catch(e) { if (e.name === 'AbortError') return; }
+  }
+  _triggerDownload(blob, safeName + '.' + ext);
 }
 function backdropClick(e) { if (e.target === $('modal')) closeModal(); }
 function closeModal() {
