@@ -319,6 +319,10 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 .l-to{font-family:'BrushPen',sans-serif;font-size:1.35rem;color:var(--ink);margin-bottom:.75rem;padding-top:.2rem}
 .l-hs{border-left:2.5px solid var(--me);background:var(--mel);padding:.42rem .8rem;margin-bottom:.85rem;border-radius:0 4px 4px 0;font-size:.78rem;color:var(--ink);font-style:italic;line-height:1.5}
 .l-hs-lbl{font-size:.57rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;display:block;margin-bottom:.18rem;color:var(--me)}
+.l-reply-ref{border-left:2px solid var(--gold);padding:.45rem .75rem;margin-bottom:.9rem;border-radius:0 4px 4px 0;background:rgba(200,169,110,.06)}
+.l-reply-ref .rr-label{font-size:.57rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--ink2);margin-bottom:.18rem;display:block}
+.l-reply-ref .rr-from{font-family:'Playfair Display',serif;font-style:italic;font-size:.82rem;color:var(--ink2);margin-bottom:.22rem}
+.l-reply-ref .rr-body{font-family:'BrushPen',sans-serif;font-size:.8rem;color:var(--ink);line-height:1.55;opacity:.72;white-space:pre-wrap;word-break:break-word}
 .l-body{font-family:'BrushPen',sans-serif;font-size:.92rem;color:var(--ink);white-space:pre-wrap;word-break:break-word;line-height:1.9;background-image:repeating-linear-gradient(transparent,transparent 27px,var(--line) 27px,var(--line) 28px);background-position:0 28px;padding-bottom:.5rem}
 .l-from{font-family:'BrushPen',sans-serif;font-size:1.2rem;margin-top:1.2rem;text-align:right;color:var(--ink)}
 .l-audio{margin-top:.9rem;padding-top:.7rem;border-top:1px dashed rgba(200,169,110,.35)}
@@ -640,9 +644,10 @@ textarea{resize:none;min-height:200px;line-height:1.75}
     <div class="sh-status" id="shStatus"></div>
     <div class="sh-letter" id="shLetter">
       <div class="l-timing" id="lTiming"></div>
-      <div class="l-to"     id="lTo"></div>
-      <div class="l-hs"     id="lHs" style="display:none"></div>
-      <div class="l-body"   id="lBody"></div>
+      <div class="l-to"        id="lTo"></div>
+      <div class="l-reply-ref" id="lReplyRef" style="display:none"></div>
+      <div class="l-hs"        id="lHs" style="display:none"></div>
+      <div class="l-body"      id="lBody"></div>
       <div class="l-from"   id="lFrom"></div>
       <div class="l-audio"  id="lAudio" style="display:none"><div class="l-audio-lbl">🎙 Sound from that moment</div><audio id="lAudioEl" controls></audio></div>
       <div class="l-songs"  id="lSongs" style="display:none"></div>
@@ -1684,6 +1689,18 @@ function openLetter(id) {
   $('lTo').textContent   = `Dear ${l.to_name},`;
   $('lBody').textContent = l.body;
   $('lFrom').textContent = `${ed().signoff} ${l.from_name}`;
+  // Reply reference block
+  const lReplyRef = $('lReplyRef');
+  if (lReplyRef) {
+    if (l.reply_to_id) {
+      const orig = letters.find(x => x.id === l.reply_to_id);
+      if (orig) {
+        const preview = orig.body ? (orig.body.length > 140 ? orig.body.slice(0, 140).trimEnd() + '…' : orig.body) : '';
+        lReplyRef.style.display = 'block';
+        lReplyRef.innerHTML = `<span class="rr-label">↩ in reply to</span><div class="rr-from">${esc(orig.from_name)}</div>${preview ? `<div class="rr-body">${esc(preview)}</div>` : ''}`;
+      } else { lReplyRef.style.display = 'none'; }
+    } else { lReplyRef.style.display = 'none'; }
+  }
   // Show reply button only for received letters (not own)
   const replyBtn = $('replyBtn');
   if (replyBtn) replyBtn.style.display = (l.writer_index !== who) ? 'block' : 'none';
