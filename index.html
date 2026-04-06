@@ -166,6 +166,9 @@ textarea{resize:none;min-height:200px;line-height:1.75}
 .toggle-slider::before{content:'';position:absolute;width:20px;height:20px;left:2px;bottom:2px;background:#fff;border-radius:50%;transition:.22s;box-shadow:0 1px 3px rgba(0,0,0,.22)}
 .toggle-switch input:checked+.toggle-slider{background:var(--me)}
 .toggle-switch input:checked+.toggle-slider::before{transform:translateX(16px)}
+.edition-pick{display:flex;gap:.55rem;margin-bottom:1.1rem}
+.edition-pick button{flex:1;padding:.85rem .5rem .75rem;border:1.5px solid rgba(200,169,110,.28);border-radius:12px;background:transparent;font-family:'Playfair Display',serif;font-size:.95rem;font-style:italic;color:var(--ink2);cursor:pointer;transition:all .22s;line-height:1}
+.edition-pick button.wsel{border-color:var(--me);color:var(--me);background:var(--mel)}
 .historic-toggle{text-align:right;margin-top:-.5rem;margin-bottom:1.1rem}
 .historic-toggle button{background:transparent;border:1px solid rgba(200,169,110,.5);border-radius:7px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);opacity:.75;cursor:pointer;padding:.32rem .72rem;transition:all .18s;font-family:inherit}
 .historic-toggle button:hover{opacity:1}
@@ -384,10 +387,9 @@ textarea{resize:none;min-height:200px;line-height:1.75}
     <div class="auth-card">
       <span class="s-icon">💌</span>
       <h2>Create your letterbox</h2>
-      <span class="who-pick-label">Edition</span>
-      <div class="who-pick">
-        <button id="edBtn0" class="edition-btn wsel" onclick="setupSetEdition('romantic')">Romantic</button>
-        <button id="edBtn1" class="edition-btn" onclick="setupSetEdition('platonic')">Platonic</button>
+      <div class="edition-pick">
+        <button id="edBtn0" class="wsel" onclick="setupSetEdition('romantic')">Romantic</button>
+        <button id="edBtn1" onclick="setupSetEdition('platonic')">Platonic</button>
       </div>
       <p class="auth-sub" id="setupAuthSub">you'll get a code to share with your partner</p>
       <div class="name-pair">
