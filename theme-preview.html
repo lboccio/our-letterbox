@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pen Pals — Color Options Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Lato', sans-serif; background: #faf7f2; color: #2e2020; margin: 0; padding: 2rem; }
+  h1 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.5rem; margin-bottom: .25rem; color: #2e2020; }
+  p { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: #9a8c78; margin-bottom: 2rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .card {
+    background: #fffdf8;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(46,32,32,.08);
+  }
+  .card-header {
+    padding: 1.1rem 1.2rem .9rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+  .swatch-pair {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .swatch-pair .s-inner {
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    opacity: .45;
+  }
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    color: #2c241a;
+  }
+  .card-body {
+    padding: .6rem 1.2rem 1.2rem;
+    border-top: 1px solid rgba(200,169,110,.15);
+  }
+  .sample-line {
+    font-size: .82rem;
+    margin: .5rem 0;
+    color: #6b5e4a;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .accent-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; opacity: .7; }
+  .btn-sample {
+    display: inline-block;
+    margin-top: .65rem;
+    padding: .45rem 1.1rem;
+    border-radius: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: .85rem;
+    font-style: italic;
+    color: #fff;
+    letter-spacing: .03em;
+  }
+  .tag {
+    display: inline-block;
+    font-size: .6rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: .2rem .55rem;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-top: .7rem;
+    opacity: .7;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<h1>Pen Pals — Color Options</h1>
+<p>Current themes · 6 presets + custom</p>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const THEMES = [
+  { label:'Crimson & Gold',   primary:'#c0272d', secondary:'#c8a96e' },
+  { label:'Navy & Copper',    primary:'#1e3a5f', secondary:'#b87333' },
+  { label:'Forest & Sage',    primary:'#2d5a27', secondary:'#8fad7a' },
+  { label:'Plum & Blush',     primary:'#6b2d6b', secondary:'#e8a0a0' },
+  { label:'Ink & Stone',      primary:'#2c2c2c', secondary:'#8c8c8c' },
+  { label:'Rose & Clay',      primary:'#b05070', secondary:'#c4714a' },
+];
+
+const grid = document.getElementById('grid');
+
+THEMES.forEach((t, i) => {
+  grid.innerHTML += `
+    <div class="card">
+      <div class="card-header">
+        <div class="swatch-pair" style="background:${t.primary}">
+          <div class="s-inner" style="background:${t.secondary}"></div>
+        </div>
+        <div>
+          <div class="card-name">${t.label}</div>
+          <div style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:#9a8c78;margin-top:.15rem">Option ${i+1}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="sample-line">
+          <div class="dot" style="background:${t.primary}"></div>
+          Primary — links, buttons, accents
+        </div>
+        <div class="sample-line">
+          <div class="accent-dot" style="background:${t.secondary}"></div>
+          Secondary — borders, highlights
+        </div>
+        <div>
+          <span class="btn-sample" style="background:${t.primary}">Send letter</span>
+        </div>
+        <div>
+          <span class="tag" style="background:${t.primary}">${t.primary}</span>
+          <span class="tag" style="background:${t.secondary}">${t.secondary}</span>
+        </div>
+      </div>
+    </div>
+  `;
+});
+
+// Custom option
+grid.innerHTML += `
+  <div class="card" style="border: 2px dashed rgba(200,169,110,.4); box-shadow:none; display:flex; align-items:center; justify-content:center; min-height:160px;">
+    <div style="text-align:center; color:#9a8c78;">
+      <div style="font-size:1.6rem; margin-bottom:.4rem;">✎</div>
+      <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:.95rem;">Custom</div>
+      <div style="font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; margin-top:.2rem;">pick any color</div>
+    </div>
+  </div>
+`;
+</script>
+</body>
+</html>

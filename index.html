@@ -411,10 +411,8 @@ textarea{resize:none;min-height:200px;line-height:1.75}
         <span class="theme-section-label">Color theme</span>
         <div class="theme-swatches" id="themeSwatches"></div>
         <div class="theme-custom-row" id="themeCustomRow">
-          <label>Primary</label>
+          <label>Color</label>
           <input type="color" id="customPrimary" value="#c0272d" oninput="onCustomColor()">
-          <label>Accent</label>
-          <input type="color" id="customSecondary" value="#c8a96e" oninput="onCustomColor()">
         </div>
       </div>
       <div class="sf">
@@ -837,9 +835,16 @@ function pickTheme(idx) {
   }
 }
 
+function deriveSecondary(primary) {
+  const [h, s, l] = hexToHsl(primary);
+  const blendedH = h * 0.4 + 38 * 0.6; // blend toward warm gold (38°)
+  const secS = Math.min(Math.max(s * 0.7, 35), 60);
+  const secL = Math.min(Math.max(l * 0.5 + 35, 55), 72);
+  return hslToHex(blendedH, secS, secL);
+}
 function onCustomColor() {
-  _setupThemePrimary   = document.getElementById('customPrimary')?.value   || '#c0272d';
-  _setupThemeSecondary = document.getElementById('customSecondary')?.value || '#c8a96e';
+  _setupThemePrimary   = document.getElementById('customPrimary')?.value || '#c0272d';
+  _setupThemeSecondary = deriveSecondary(_setupThemePrimary);
   applyTheme(_setupThemePrimary, _setupThemeSecondary);
 }
 
