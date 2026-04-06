@@ -407,7 +407,7 @@ textarea{resize:none;min-height:200px;line-height:1.75}
         <button id="swp0" onclick="setupSelWho(0)">Partner one</button>
         <button id="swp1" onclick="setupSelWho(1)">Partner two</button>
       </div>
-      <div class="theme-section">
+      <div class="theme-section" id="themeSection" style="display:none">
         <span class="theme-section-label">Color theme</span>
         <div class="theme-swatches" id="themeSwatches"></div>
         <div class="theme-custom-row" id="themeCustomRow">
@@ -732,6 +732,9 @@ function setupSetEdition(e) {
   const n2 = gv('sn2') || (isP ? 'Friend' : 'Partner') + ' two';
   $('swp0').textContent = n1;
   $('swp1').textContent = n2;
+  const ts = $('themeSection');
+  if (ts) ts.style.display = isP ? '' : 'none';
+  if (!isP) { pickTheme(0); }
 }
 function applyEdition(e) {
   edition = e || 'romantic';
